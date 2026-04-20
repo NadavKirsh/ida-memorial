@@ -118,6 +118,7 @@
         #journey-map { width: 100%; height: 100%; }
         .leaflet-control-attribution { font-size: 8px !important; }
         .leaflet-control-zoom { display: none !important; }
+        #journey-map-container:hover { box-shadow: 0 4px 32px rgba(0,0,0,0.35); }
         @media (max-width: 768px) {
             #journey-map-container { width: 160px; height: 120px; bottom: 1rem; right: 1rem; }
         }
@@ -637,17 +638,17 @@
 
         const journeyMap = L.map('journey-map', {
             zoomControl: false,
-            dragging: false,
-            scrollWheelZoom: false,
-            doubleClickZoom: false,
-            touchZoom: false,
-            keyboard: false,
+            dragging: true,
+            scrollWheelZoom: true,
+            doubleClickZoom: true,
+            touchZoom: true,
+            keyboard: true,
             attributionControl: true
         }).setView([50.3, 19.1], 6);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OSM &copy; CARTO',
-            maxZoom: 15
+            maxZoom: 18
         }).addTo(journeyMap);
 
         // Journey waypoints: [lat, lng, label, zoom]
