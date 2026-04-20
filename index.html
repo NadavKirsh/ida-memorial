@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ida Kafka | A Living Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            transition: background 1.5s ease, color 1.5s ease;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4, .serif { font-family: 'Playfair Display', serif; }
+        
+        /* Era Themes */
+        /* Pre-War: Warm, nostalgic, but weighted (Youth but hard times) */
+        .theme-prewar { 
+            background: linear-gradient(to bottom, #ebdcd0, #d6c5b3); 
+            color: #3e332a; 
+        }
+        /* War: Oppressive, dark, stark */
+        .theme-war { 
+            background: #121212; 
+            color: #e5e5e5; 
+        }
+        /* Post-War: Dawn, sky, fresh air (Hope for a better future) */
+        .theme-postwar { 
+            background: linear-gradient(to bottom, #dbeafe, #f0fdfa); 
+            color: #1e293b; 
+        }
+
+        /* Fixed Navigation Timeline */
+        .nav-timeline { position: fixed; left: 2rem; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 1rem; }
+        .nav-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; cursor: pointer; transition: all 0.3s ease; position: relative; opacity: 0.5; }
+        .nav-dot:hover { opacity: 1; }
+        .nav-dot.active { background-color: currentColor; transform: scale(1.4); opacity: 1; }
+        .nav-dot span { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); opacity: 0; white-space: nowrap; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; transition: opacity 0.3s ease; pointer-events: none; }
+        .nav-dot:hover span, .nav-dot.active span { opacity: 1; }
+
+        /* Story Stations & Animations */
+        .fade-in { opacity: 0; transform: translateY(40px); transition: all 1s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .station-line { width: 2px; height: 100%; background: currentColor; opacity: 0.15; position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: -1; }
+        
+        /* Glass Card for Context */
+        .theme-prewar .glass-card { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(62, 51, 42, 0.1); }
+        .theme-war .glass-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .theme-postwar .glass-card { background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(30, 41, 59, 0.1); }
+
+        .content-wrapper { padding-left: 5rem; padding-right: 1rem; }
+        @media (max-width: 768px) { .content-wrapper { padding-left: 1rem; } .station-line { left: 1rem; } }
+    </style>
+</head>
+<body class="theme-prewar antialiased" id="body-container">
+
+    <nav class="nav-timeline hidden md:flex" id="navTimeline">
+        <a href="#hero" class="nav-dot active" data-target="hero"><span>Title</span></a>
+        <a href="#pre-1" class="nav-dot" data-target="pre-1"><span>1924: Bendein</span></a>
+        <a href="#pre-2" class="nav-dot" data-target="pre-2"><span>1931: Hard Times</span></a>
+        <a href="#war-1" class="nav-dot" data-target="war-1"><span>1939: The Fire</span></a>
+        <a href="#war-2" class="nav-dot" data-target="war-2"><span>1941: Sagan</span></a>
+        <a href="#war-3" class="nav-dot" data-target="war-3"><span>Greenberg Shlesien</span></a>
+        <a href="#war-4" class="nav-dot" data-target="war-4"><span>The Darkness</span></a>
+        <a href="#war-5" class="nav-dot" data-target="war-5"><span>1945: Death March</span></a>
+        <a href="#war-6" class="nav-dot" data-target="war-6"><span>May 1945: Liberation</span></a>
+        <a href="#post-1" class="nav-dot" data-target="post-1"><span>July 1945: The Return</span></a>
+        <a href="#post-2" class="nav-dot" data-target="post-2"><span>1946: Rebuilding</span></a>
+        <a href="#post-3" class="nav-dot" data-target="post-3"><span>1948: Canada</span></a>
+    </nav>
+
+    <div class="content-wrapper">
+        
+        <header id="hero" class="h-screen flex flex-col justify-center items-center text-center relative section-block" data-theme="theme-prewar">
+            <h1 class="text-6xl md:text-8xl mb-4 tracking-tight">Ida (Yittale) Kafka</h1>
+            <p class="text-2xl md:text-3xl italic opacity-70 mb-8">1924 &mdash; 2009</p>
+            <div class="max-w-2xl text-lg leading-relaxed italic border-t border-b border-current py-6 opacity-80">
+                "To not mention her parents' names—Chaya and Eli Boruch Rakowsky—would be to delete the very essence of my Mother's being. And oh, what a being she was."
+            </div>
+            <div class="mt-20 animate-bounce opacity-60">
+                <span class="text-xs uppercase tracking-[0.3em] block mb-2">Scroll</span>
+                <span class="text-3xl">↓</span>
+            </div>
+        </header>
+
+        <main class="relative overflow-hidden">
+            
+            <section id="pre-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">February 9, 1924</span>
+                        <h3 class="text-4xl mb-6">Childhood in Bendein</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            Ida was born overlooking an old castle and the Przemsha River. The family lived in a single large room serving as kitchen, bedroom, and living space. Despite modest means, the home overflowed with "Yeddishkite" and warmth.
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            Friday nights were sacred. Before Shabbat, Ida and her friend Salla would walk designated streets collecting challah for the needy in a white pillowcase. As she entered those homes, she felt the air take on a "heavenly peace," leaving the hardships of the week behind.
+                        </p>
+                    </div>
+                    <div class="md:pl-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">Historical Context</h4>
+                        <p class="text-sm opacity-80 italic leading-relaxed">
+                            Pre-war Bedzin (Bendein) was a thriving hub of Jewish culture in Poland. Jews made up nearly half the town's population, creating a deeply connected, charitable, and spiritually rich community despite widespread economic struggles.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pre-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">The Profession</h4>
+                        <p class="text-sm opacity-80 italic leading-relaxed">
+                            With rising anti-Semitism and economic boycotts in the late 1930s, securing a physical trade was seen as a vital lifeline. Vocational training offered a semblance of security against an unknown future.
+                        </p>
+                    </div>
+                    <div class="order-1 md:order-2 md:pl-12">
+                        <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">1931 — 1939</span>
+                        <h3 class="text-4xl mb-6">A Formative Loss</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            Tragedy struck early. In 1931, an epidemic swept the area, and her beloved father, Eli Boruch, died of typhus. To survive, her mother Chaya began laboring over custom-made shirts.
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            Knowing the precariousness of their situation, her mother sent a young Ida to travel 8km daily to Sosnowiec to learn dressmaking. "You should never need it, but you should have a profession in your hands," her mother warned. Ida graduated with honors just as rumors of war began to cross the border.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="war-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">November 1939</span>
+                        <h3 class="text-4xl mb-6 text-red-50">The Flames of Bendein</h3>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            The vibrant city became a ghost town as German soldiers filled the streets. Watching from an attic window, Ida and her family saw great plumes of smoke rising from their magnificent "Great Shul." It was the moment they realized their entire world was ending. Forced from their home, the Jews of Bendein became the sole targets of the invaders.
+                        </p>
+                    </div>
+                    <div class="md:pl-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">World Timeline</h4>
+                        <p class="text-sm opacity-70 italic leading-relaxed">
+                            September 1, 1939: Germany invades Poland. By September 8, the SS arrived in Bedzin and systematically burned the Great Synagogue along with the surrounding Jewish homes, shooting those who tried to escape the flames.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="war-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Schmelt Camps</h4>
+                        <p class="text-sm opacity-70 italic leading-relaxed">
+                            Young Jews were funneled into a network of forced labor camps managed by Organization Schmelt, deeply integrated into the German war economy, producing textiles and munitions.
+                        </p>
+                    </div>
+                    <div class="order-1 md:order-2 md:pl-12">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">February 1941</span>
+                        <h3 class="text-4xl mb-6 text-red-50">Separation & Sagan</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            Shortly after her 17th birthday, Ida was "mercilessly torn away" from her family. At the orphanage holding center, her brave younger sister Rivkale managed to walk right beside her past the armed guards to deliver their mother's last message: "Take care, and G-d willing, we will see each other soon."
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            Sent to the *Sagan Tuch Fabrik*, she surrendered her belongings but dared to hide family photos. Staring at a bowl of watery soup she couldn't bring herself to eat, she met Masha Haida. They exchanged glances across the table, realized they were from the same town, and became best friends.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="war-3" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">1941 — 1944</span>
+                        <h3 class="text-4xl mb-6 text-red-50">Defiance in Greenberg</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            Ida was transferred to *Greenberg Shlesien*. Assigned to the "Ausneherai," she did "invisible mending" on fabrics. Her German instructor walked in on the first day, looked at the girls, and asked in shock, "Where are your horns?" having been taught that Jews were literal demons.
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            Despite the terror, acts of spiritual defiance remained. Around Chanukah, Ida and two friends from Bais Yaakov dared to ask a guard to light a candle. Miraculously permitted, Ida, known for her beautiful voice, lit the light and sang "Maoz Tzur." In the middle of total darkness, they injected a ray of hope.
+                        </p>
+                    </div>
+                    <div class="md:pl-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">Spiritual Resistance</h4>
+                        <p class="text-sm opacity-70 italic leading-relaxed">
+                            Maintaining religious observance in the camps was strictly forbidden and punishable by death. Acts like singing prayers or lighting makeshift candles were profound forms of spiritual resistance to maintain humanity.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="war-4" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">Dehumanization</h4>
+                        <p class="text-sm opacity-70 italic leading-relaxed">
+                            "Selections" were designed not only to weed out the weak for extermination but to strip prisoners of all dignity. Those showing signs of illness, like Tuberculosis, disappeared forever.
+                        </p>
+                    </div>
+                    <div class="order-1 md:order-2 md:pl-12">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">1944</span>
+                        <h3 class="text-4xl mb-6 text-red-50">The Darkest Days</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            The Germans began "experiments" and brutal inspections. Ida vividly remembered the terror of being forced to walk completely naked down a hall toward three seated SS men. "I tried to cover myself with my hands, it was 'ferboten' (forbidden)." 
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            Girls began deteriorating. Her friend Estusia contracted TB and disappeared. When Ida's eyesight failed at the massive spinning machines, she was denied glasses. But in an open miracle, a sympathetic guard transferred her to the kitchen, likely saving her from starving before the final march.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="war-5" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">January — April 1945</span>
+                        <h3 class="text-4xl mb-6 text-red-50">The Death March</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            In the freezing winter, they were ordered to march. Walking 25-30km daily, girls who stopped were shot in the woods. When Ida's feet swelled so badly her shoes fell apart, she bound them in sackcloth and string.
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            One morning, suffering from severe dysentery in a warehouse in the rain, a wise friend commanded her to urinate in a can and drink it. Shocked, but desperate to live, she obeyed—and the illness passed. It was a brutal, miraculous survival.
+                        </p>
+                    </div>
+                    <div class="md:pl-12 glass-card p-8 rounded-lg border-l-4 border-red-800">
+                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Final Evacuations</h4>
+                        <p class="text-sm opacity-70 italic leading-relaxed">
+                            As Soviet forces closed in from the East, the SS forced hundreds of thousands of prisoners on foot toward the interior of the Reich. Exposure, starvation, and summary executions killed tens of thousands.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="war-6" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Collapse</h4>
+                        <p class="text-sm opacity-70 italic leading-relaxed">
+                            By May 1945, the Nazi command structure was disintegrating. Guards often abandoned their posts and prisoners as Allied forces surrounded them.
+                        </p>
+                    </div>
+                    <div class="order-1 md:order-2 md:pl-12">
+                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">May 5-6, 1945</span>
+                        <h3 class="text-4xl mb-6 text-red-50">Silence in the Forest</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            Exhausted, pouring rain, the small remaining group was ordered to sit in a pitch-black forest on a mountain. Ida heard the guards calling to each other—"Frans, Fritz"—and saw flashlights moving away. Then, total silence.
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            Waking the next morning, the guards were gone. "I am a free human being. I am free!" she wrote. They walked down to the Czech village of Prachatice. The villagers, horrified at the sight of these walking skeletons, cried "Nemecka Cultura" (German Culture) and immediately turned a school into a hospital to save them.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="post-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">July 1945</span>
+                        <h3 class="text-4xl mb-6 text-slate-800">The Empty Home</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            After four years of torture, Ida made the journey back to Bendein. But the homecoming was a nightmare. The streets felt dull; the windows where her sisters used to sit were empty. 
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            Standing in front of her home's door, the pressure became too great. "The dramatic force of my indescribable pain broke... I realize that I am all alone, like a stone, and with a stone in my heart." The mother she had promised to return to was gone.
+                        </p>
+                    </div>
+                    <div class="md:pl-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">The Void</h4>
+                        <p class="text-sm opacity-80 italic leading-relaxed">
+                            For many survivors, liberation did not bring immediate joy, but rather the devastating realization of total annihilation. Returning to Poland often meant facing hostile locals and the undeniable truth that their families had been murdered.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="post-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
+                        <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">Displaced Persons</h4>
+                        <p class="text-sm opacity-80 italic leading-relaxed">
+                            Camps like Feldafing in Germany became massive hubs for survivors waiting to emigrate. In these camps, thousands of marriages took place as young people desperately sought to recreate the families they had lost.
+                        </p>
+                    </div>
+                    <div class="order-1 md:order-2 md:pl-12">
+                        <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">1945 — 1946</span>
+                        <h3 class="text-4xl mb-6 text-slate-800">New Roots in Munich</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            Refusing to be broken, Ida moved to the Displaced Persons camps in Germany (Feldafing and Regensburg). There, she met Eliezar Kafka. Both were alone; both were determined to rebuild the Jewish people. 
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            They married on July 27, 1946, in a simple ceremony with no special clothes. Shortly after, they welcomed their daughter Helen. Given the starvation and physical abuse Ida had endured, giving birth to a healthy baby was deemed a literal miracle.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="post-3" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="md:text-right md:pr-12">
+                        <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">1948 & Beyond</span>
+                        <h3 class="text-4xl mb-6 text-slate-800">Across the Ocean</h3>
+                        <p class="text-lg leading-relaxed opacity-90 mb-4">
+                            Securing visas to Canada, they faced one last hurdle: infants under six months weren't allowed on the ships. They traded a watch to an official to falsify Helen's papers. After a terrifying 10-day voyage on a wooden boat, they landed in Halifax. 
+                        </p>
+                        <p class="text-lg leading-relaxed opacity-90">
+                            There, an immigration officer anglicized "Yittale" to "Ida." They settled in Toronto, slaving away as a tailor and seamstress to raise four children. Ida lived to see grandchildren and great-grandchildren, feeling immense pride when her descendants served in the IDF and attended her beloved Bais Yaakov in Israel. 
+                        </p>
+                    </div>
+                    <div class="md:pl-12 glass-card p-8 rounded-lg border-l-4 border-blue-400">
+                        <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">The Ultimate Victory</h4>
+                        <p class="text-sm opacity-80 italic leading-relaxed">
+                            "Not Hitler 'Yemach Shemo', not poverty, not adversity, not the loss of her Father... could ever or did ever alter her unwavering Emmunah (faith) in Hashem." - Rachel Bahar
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="py-32 text-center section-block" data-theme="theme-postwar">
+            <h2 class="text-4xl mb-6 italic text-slate-800">"For whom I live and who do I have?"</h2>
+            <p class="max-w-2xl mx-auto px-6 text-slate-600 font-light leading-relaxed mb-12 text-lg">
+                Ida answered her own agonizing question from the ruins of 1945 by building a thriving family. Her archive is a testament to the power of the human spirit, the necessity of memory, and the indestructible nature of faith.
+            </p>
+            <div class="text-xs uppercase tracking-widest text-slate-400">
+                Preserved for the Generations to Come
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll('.section-block');
+        const navDots = document.querySelectorAll('.nav-dot');
+        const body = document.getElementById('body-container');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-40% 0px -60% 0px', 
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Change Body Theme
+                    const theme = entry.target.getAttribute('data-theme');
+                    body.className = `antialiased ${theme}`;
+
+                    // Update Navigation Dots
+                    const targetId = entry.target.getAttribute('id');
+                    navDots.forEach(dot => {
+                        if (dot.getAttribute('data-target') === targetId) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Fade in animation script
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-section').forEach(section => {
+            fadeObserver.observe(section);
+        });
+    </script>
+</body>
+</html>
