@@ -4,7 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ida Kafka | A Living Archive</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="A living archive of Ida (Yittale) Kafka, 1924-2009. Holocaust survivor from Bedzin, Poland. Mother, seamstress, woman of indestructible faith.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ida-kafka-memory.netlify.app/">
+    <meta property="og:title" content="Ida Kafka | A Living Archive">
+    <meta property="og:description" content="A living archive of Ida (Yittale) Kafka, 1924-2009. Holocaust survivor from Bedzin, Poland. Mother, seamstress, woman of indestructible faith.">
+    <meta property="og:image" content="https://ida-kafka-memory.netlify.app/og-image.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Ida Kafka | A Living Archive">
+    <meta property="twitter:description" content="A living archive of Ida (Yittale) Kafka, 1924-2009. Holocaust survivor from Bedzin, Poland.">
+    <meta property="twitter:image" content="https://ida-kafka-memory.netlify.app/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%AF%EF%B8%8F%3C/text%3E%3C/svg%3E">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body { 
@@ -51,23 +68,37 @@
 
         .content-wrapper { padding-left: 5rem; padding-right: 1rem; }
         @media (max-width: 768px) { .content-wrapper { padding-left: 1rem; } .station-line { left: 1rem; } }
+
+        /* Photo gallery */
+        .photo-gallery { transition: opacity 0.5s ease; }
+        .photo-gallery:empty + .upload-row { margin-top: 0; }
+        .upload-trigger { cursor: pointer; }
+        .lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; flex-direction: column; cursor: zoom-out; }
+        .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 4px; }
+        .lightbox-caption { color: #ccc; font-size: 0.875rem; margin-top: 1rem; text-align: center; max-width: 600px; }
+        .drop-zone-active { border-color: #3b82f6 !important; background: rgba(59,130,246,0.05) !important; }
     </style>
 </head>
 <body class="theme-prewar antialiased" id="body-container">
 
-    <nav class="nav-timeline hidden md:flex" id="navTimeline">
-        <a href="#hero" class="nav-dot active" data-target="hero"><span>Title</span></a>
-        <a href="#pre-1" class="nav-dot" data-target="pre-1"><span>1924: Bendein</span></a>
-        <a href="#pre-2" class="nav-dot" data-target="pre-2"><span>1931: Hard Times</span></a>
-        <a href="#war-1" class="nav-dot" data-target="war-1"><span>1939: The Fire</span></a>
-        <a href="#war-2" class="nav-dot" data-target="war-2"><span>1941: Sagan</span></a>
-        <a href="#war-3" class="nav-dot" data-target="war-3"><span>Greenberg Shlesien</span></a>
-        <a href="#war-4" class="nav-dot" data-target="war-4"><span>The Darkness</span></a>
-        <a href="#war-5" class="nav-dot" data-target="war-5"><span>1945: Death March</span></a>
-        <a href="#war-6" class="nav-dot" data-target="war-6"><span>May 1945: Liberation</span></a>
-        <a href="#post-1" class="nav-dot" data-target="post-1"><span>July 1945: The Return</span></a>
-        <a href="#post-2" class="nav-dot" data-target="post-2"><span>1946: Rebuilding</span></a>
-        <a href="#post-3" class="nav-dot" data-target="post-3"><span>1948: Canada</span></a>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded">
+        Skip to main content
+    </a>
+
+    <nav class="nav-timeline hidden md:flex" id="navTimeline" aria-label="Timeline navigation">
+        <a href="#hero" class="nav-dot active" data-target="hero" aria-label="Title"><span aria-hidden="true">Title</span></a>
+        <a href="#pre-1" class="nav-dot" data-target="pre-1" aria-label="1924: Bendein"><span aria-hidden="true">1924: Bendein</span></a>
+        <a href="#pre-2" class="nav-dot" data-target="pre-2" aria-label="1931: Hard Times"><span aria-hidden="true">1931: Hard Times</span></a>
+        <a href="#war-1" class="nav-dot" data-target="war-1" aria-label="1939: The Fire"><span aria-hidden="true">1939: The Fire</span></a>
+        <a href="#war-2" class="nav-dot" data-target="war-2" aria-label="1941: Sagan"><span aria-hidden="true">1941: Sagan</span></a>
+        <a href="#war-3" class="nav-dot" data-target="war-3" aria-label="Greenberg Shlesien"><span aria-hidden="true">Greenberg Shlesien</span></a>
+        <a href="#war-4" class="nav-dot" data-target="war-4" aria-label="The Darkness"><span aria-hidden="true">The Darkness</span></a>
+        <a href="#war-5" class="nav-dot" data-target="war-5" aria-label="1945: Death March"><span aria-hidden="true">1945: Death March</span></a>
+        <a href="#war-6" class="nav-dot" data-target="war-6" aria-label="May 1945: Liberation"><span aria-hidden="true">May 1945: Liberation</span></a>
+        <a href="#post-1" class="nav-dot" data-target="post-1" aria-label="July 1945: The Return"><span aria-hidden="true">July 1945: The Return</span></a>
+        <a href="#post-2" class="nav-dot" data-target="post-2" aria-label="1946: Rebuilding"><span aria-hidden="true">1946: Rebuilding</span></a>
+        <a href="#post-3" class="nav-dot" data-target="post-3" aria-label="1948: Canada"><span aria-hidden="true">1948: Canada</span></a>
+        <a href="#about" class="nav-dot" data-target="about" aria-label="About This Archive"><span aria-hidden="true">About</span></a>
     </nav>
 
     <div class="content-wrapper">
@@ -84,9 +115,9 @@
             </div>
         </header>
 
-        <main class="relative overflow-hidden">
+        <main id="main-content" class="relative overflow-hidden">
             
-            <section id="pre-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar">
+            <section id="pre-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar" role="region" aria-label="1924: Childhood in Bendein">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
@@ -106,9 +137,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="pre-1" aria-label="Add a photo to Childhood in Bendein">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-pre-1"></div>
+                </div>
             </section>
 
-            <section id="pre-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar">
+            <section id="pre-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar" role="region" aria-label="1931: A Formative Loss">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
@@ -128,9 +168,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="pre-2" aria-label="Add a photo to A Formative Loss">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-pre-2"></div>
+                </div>
             </section>
 
-            <section id="war-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+            <section id="war-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war" role="region" aria-label="1939: The Flames of Bendein">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
@@ -147,9 +196,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-1" aria-label="Add a photo to The Flames of Bendein">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-1"></div>
+                </div>
             </section>
 
-            <section id="war-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+            <section id="war-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war" role="region" aria-label="1941: Separation and Sagan">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
@@ -169,9 +227,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-2" aria-label="Add a photo to Separation and Sagan">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-2"></div>
+                </div>
             </section>
 
-            <section id="war-3" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+            <section id="war-3" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war" role="region" aria-label="1941-1944: Defiance in Greenberg">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
@@ -191,9 +258,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-3" aria-label="Add a photo to Defiance in Greenberg">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-3"></div>
+                </div>
             </section>
 
-            <section id="war-4" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+            <section id="war-4" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war" role="region" aria-label="1944: The Darkest Days">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
@@ -213,9 +289,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-4" aria-label="Add a photo to The Darkest Days">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-4"></div>
+                </div>
             </section>
 
-            <section id="war-5" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+            <section id="war-5" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war" role="region" aria-label="1945: The Death March">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
@@ -235,9 +320,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-5" aria-label="Add a photo to The Death March">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-5"></div>
+                </div>
             </section>
 
-            <section id="war-6" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war">
+            <section id="war-6" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-war" role="region" aria-label="May 1945: Liberation">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
@@ -257,9 +351,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-6" aria-label="Add a photo to Liberation">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-6"></div>
+                </div>
             </section>
 
-            <section id="post-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar">
+            <section id="post-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar" role="region" aria-label="July 1945: The Empty Home">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
@@ -279,9 +382,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="post-1" aria-label="Add a photo to The Empty Home">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-post-1"></div>
+                </div>
             </section>
 
-            <section id="post-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar">
+            <section id="post-2" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar" role="region" aria-label="1946: New Roots in Munich">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
@@ -301,9 +413,18 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="post-2" aria-label="Add a photo to New Roots in Munich">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-post-2"></div>
+                </div>
             </section>
 
-            <section id="post-3" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar">
+            <section id="post-3" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar" role="region" aria-label="1948: Across the Ocean">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
@@ -323,6 +444,36 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="post-3" aria-label="Add a photo to Across the Ocean">
+                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-post-3"></div>
+                </div>
+            </section>
+
+            <section id="about" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar" role="region" aria-label="About this archive">
+                <div class="max-w-2xl mx-auto text-center">
+                    <h3 class="text-3xl mb-8 text-slate-800">About This Archive</h3>
+                    <p class="text-lg leading-relaxed opacity-90 mb-6">
+                        This living archive was created by the family of Ida (Yittale) Kafka
+                        to preserve her testimony for future generations. The narrative is drawn
+                        from Ida's own written account of her life, as shared by her daughter
+                        Rachel Bahar.
+                    </p>
+                    <p class="text-lg leading-relaxed opacity-90 mb-6">
+                        Family members and friends are invited to contribute photographs
+                        using the upload buttons found throughout the timeline. Every image
+                        added helps complete the picture of a life that spanned from pre-war
+                        Poland to post-war Canada.
+                    </p>
+                    <div class="mt-12 pt-8 border-t border-slate-300 text-sm text-slate-500">
+                        <p>In memory of Chaya and Eli Boruch Rakowsky, and all who perished.</p>
+                    </div>
+                </div>
             </section>
 
         </main>
@@ -338,51 +489,352 @@
         </footer>
     </div>
 
+    <!-- Upload Modal -->
+    <div id="upload-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Upload a photo">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl text-gray-800">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl serif">Add a Photo</h3>
+                <button id="modal-close" class="text-gray-400 hover:text-gray-600 text-2xl leading-none" aria-label="Close">&times;</button>
+            </div>
+            <p class="text-sm text-gray-500 mb-6">Adding to: <strong id="modal-section-label"></strong></p>
+
+            <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-400 transition-colors mb-4">
+                <div class="text-4xl mb-2 opacity-40">&#128247;</div>
+                <p class="text-sm text-gray-500">Drag a photo here or <span class="text-blue-600 underline">browse</span></p>
+                <p class="text-xs text-gray-400 mt-1">JPG, PNG, or WebP. Max 10 MB.</p>
+                <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" class="hidden">
+            </div>
+
+            <div id="preview-area" class="hidden mb-4">
+                <img id="preview-img" class="w-full h-48 object-cover rounded-lg" alt="Preview">
+            </div>
+
+            <input type="text" id="photo-caption" placeholder="Caption (optional, e.g. 'Ida with Helen, 1947')"
+                   class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-blue-300">
+
+            <input type="text" id="contributor-name" placeholder="Your name (optional)"
+                   class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm mb-6 focus:outline-none focus:ring-2 focus:ring-blue-300">
+
+            <button id="upload-submit" disabled
+                    class="w-full bg-slate-800 text-white py-3 rounded-lg font-semibold hover:bg-slate-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                Upload Photo
+            </button>
+
+            <div id="upload-progress" class="hidden mt-4">
+                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-blue-500 transition-all rounded-full" style="width: 0%"></div>
+                </div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="progress-text">Uploading...</p>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // =============================================
+        // SUPABASE CONFIG — Replace with your own keys
+        // =============================================
+        const SUPABASE_URL = 'https://ahlttpizzmppxbfisegq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFobHR0cGl6em1wcHhiZmlzZWdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MDUyMTQsImV4cCI6MjA5MjI4MTIxNH0.qJvh778dJlJ2zAdPs0FA8oHN7NlfKbLPEXy6qrsp77w';
+        const BUCKET = 'memorial-photos';
+        const MAX_DIMENSION = 1600;
+
+        let sb = null;
+        let currentSection = null;
+        let selectedFile = null;
+
+        // Initialize Supabase if configured
+        function initSupabase() {
+            if (SUPABASE_URL === 'YOUR_SUPABASE_URL') return false;
+            sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            return true;
+        }
+
+        // =============================================
+        // THEME & NAV (existing functionality)
+        // =============================================
         const sections = document.querySelectorAll('.section-block');
         const navDots = document.querySelectorAll('.nav-dot');
         const body = document.getElementById('body-container');
 
-        const observerOptions = {
-            root: null,
-            rootMargin: '-40% 0px -60% 0px', 
-            threshold: 0
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Change Body Theme
                     const theme = entry.target.getAttribute('data-theme');
                     body.className = `antialiased ${theme}`;
-
-                    // Update Navigation Dots
                     const targetId = entry.target.getAttribute('id');
                     navDots.forEach(dot => {
-                        if (dot.getAttribute('data-target') === targetId) {
-                            dot.classList.add('active');
-                        } else {
-                            dot.classList.remove('active');
-                        }
+                        dot.classList.toggle('active', dot.getAttribute('data-target') === targetId);
                     });
                 }
             });
-        }, observerOptions);
+        }, { root: null, rootMargin: '-40% 0px -60% 0px', threshold: 0 });
 
         sections.forEach(section => observer.observe(section));
 
-        // Fade in animation script
         const fadeObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.fade-section').forEach(section => {
-            fadeObserver.observe(section);
+        document.querySelectorAll('.fade-section').forEach(s => fadeObserver.observe(s));
+
+        // =============================================
+        // PHOTO SYSTEM
+        // =============================================
+
+        // Section labels for the modal
+        const sectionLabels = {
+            'pre-1': 'Childhood in Bendein',
+            'pre-2': 'A Formative Loss',
+            'war-1': 'The Flames of Bendein',
+            'war-2': 'Separation & Sagan',
+            'war-3': 'Defiance in Greenberg',
+            'war-4': 'The Darkest Days',
+            'war-5': 'The Death March',
+            'war-6': 'Liberation',
+            'post-1': 'The Empty Home',
+            'post-2': 'New Roots in Munich',
+            'post-3': 'Across the Ocean'
+        };
+
+        // Client-side image resize
+        function resizeImage(file, maxDim) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                const canvas = document.createElement('canvas');
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > maxDim || height > maxDim) {
+                            const ratio = Math.min(maxDim / width, maxDim / height);
+                            width = Math.round(width * ratio);
+                            height = Math.round(height * ratio);
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                        canvas.toBlob(resolve, 'image/webp', 0.82);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Load all photos on page load
+        async function loadAllPhotos() {
+            if (!sb) return;
+            const { data, error } = await sb
+                .from('photos')
+                .select('*')
+                .eq('is_visible', true)
+                .order('created_at', { ascending: true });
+
+            if (error || !data) return;
+
+            const grouped = {};
+            data.forEach(photo => {
+                if (!grouped[photo.section_id]) grouped[photo.section_id] = [];
+                grouped[photo.section_id].push(photo);
+            });
+
+            Object.entries(grouped).forEach(([sectionId, photos]) => {
+                renderPhotos(sectionId, photos);
+            });
+        }
+
+        // Render photos into a section grid
+        function renderPhotos(sectionId, photos) {
+            const grid = document.getElementById(`photos-${sectionId}`);
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            photos.forEach(photo => {
+                const { data: { publicUrl } } = sb.storage.from(BUCKET).getPublicUrl(photo.image_path);
+
+                const card = document.createElement('div');
+                card.className = 'group relative rounded-lg overflow-hidden cursor-pointer aspect-square';
+                card.innerHTML = `
+                    <img src="${publicUrl}" alt="${photo.caption || 'Family photo'}"
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                         loading="lazy">
+                    ${photo.caption || photo.contributor_name ? `
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3
+                                opacity-0 group-hover:opacity-100 transition-opacity">
+                        ${photo.caption ? `<p class="text-white text-xs">${photo.caption}</p>` : ''}
+                        ${photo.contributor_name && photo.contributor_name !== 'Family Member' ? `<p class="text-white/60 text-xs mt-1">- ${photo.contributor_name}</p>` : ''}
+                    </div>` : ''}
+                `;
+                card.addEventListener('click', () => openLightbox(publicUrl, photo.caption));
+                grid.appendChild(card);
+            });
+        }
+
+        // Lightbox
+        function openLightbox(src, caption) {
+            const lb = document.createElement('div');
+            lb.className = 'lightbox';
+            lb.innerHTML = `
+                <img src="${src}" alt="${caption || 'Family photo'}">
+                ${caption ? `<p class="lightbox-caption">${caption}</p>` : ''}
+            `;
+            lb.addEventListener('click', () => lb.remove());
+            document.addEventListener('keydown', function handler(e) {
+                if (e.key === 'Escape') { lb.remove(); document.removeEventListener('keydown', handler); }
+            });
+            document.body.appendChild(lb);
+        }
+
+        // Modal management
+        const modal = document.getElementById('upload-modal');
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewArea = document.getElementById('preview-area');
+        const previewImg = document.getElementById('preview-img');
+        const submitBtn = document.getElementById('upload-submit');
+        const progressArea = document.getElementById('upload-progress');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+
+        function openModal(sectionId) {
+            currentSection = sectionId;
+            selectedFile = null;
+            document.getElementById('modal-section-label').textContent = sectionLabels[sectionId] || sectionId;
+            document.getElementById('photo-caption').value = '';
+            document.getElementById('contributor-name').value = '';
+            previewArea.classList.add('hidden');
+            dropZone.classList.remove('hidden');
+            progressArea.classList.add('hidden');
+            progressBar.style.width = '0%';
+            submitBtn.disabled = true;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentSection = null;
+            selectedFile = null;
+        }
+
+        function handleFileSelect(file) {
+            if (!file || !file.type.startsWith('image/')) return;
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File is too large. Please choose an image under 10 MB.');
+                return;
+            }
+            selectedFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                previewArea.classList.remove('hidden');
+                dropZone.classList.add('hidden');
+                submitBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Upload
+        async function uploadPhoto() {
+            if (!selectedFile || !currentSection || !sb) return;
+
+            submitBtn.disabled = true;
+            progressArea.classList.remove('hidden');
+            progressText.textContent = 'Resizing image...';
+            progressBar.style.width = '20%';
+
+            const resized = await resizeImage(selectedFile, MAX_DIMENSION);
+
+            const filename = `${currentSection}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+
+            progressText.textContent = 'Uploading...';
+            progressBar.style.width = '50%';
+
+            const { error: uploadError } = await sb.storage
+                .from(BUCKET)
+                .upload(filename, resized, { contentType: 'image/webp', upsert: false });
+
+            if (uploadError) {
+                progressText.textContent = 'Upload failed. Please try again.';
+                submitBtn.disabled = false;
+                return;
+            }
+
+            progressBar.style.width = '80%';
+            progressText.textContent = 'Saving...';
+
+            const caption = document.getElementById('photo-caption').value.trim();
+            const contributor = document.getElementById('contributor-name').value.trim();
+
+            const { error: dbError } = await sb.from('photos').insert({
+                section_id: currentSection,
+                image_path: filename,
+                caption: caption,
+                contributor_name: contributor || 'Family Member',
+            });
+
+            if (dbError) {
+                progressText.textContent = 'Failed to save. Please try again.';
+                submitBtn.disabled = false;
+                return;
+            }
+
+            progressBar.style.width = '100%';
+            progressText.textContent = 'Done!';
+
+            // Reload this section's photos
+            const { data } = await sb
+                .from('photos')
+                .select('*')
+                .eq('section_id', currentSection)
+                .eq('is_visible', true)
+                .order('created_at', { ascending: true });
+
+            if (data) renderPhotos(currentSection, data);
+
+            setTimeout(closeModal, 800);
+        }
+
+        // Event listeners
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
+
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drop-zone-active'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drop-zone-active'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drop-zone-active');
+            handleFileSelect(e.dataTransfer.files[0]);
         });
+
+        submitBtn.addEventListener('click', uploadPhoto);
+
+        // Wire up all "+" buttons
+        document.querySelectorAll('.upload-trigger').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (!sb) {
+                    alert('Photo uploads are not yet configured. The site owner needs to set up Supabase and add the project credentials.');
+                    return;
+                }
+                openModal(btn.dataset.section);
+            });
+        });
+
+        // Escape key closes modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        });
+
+        // Initialize
+        if (initSupabase()) {
+            loadAllPhotos();
+        }
     </script>
 </body>
 </html>
