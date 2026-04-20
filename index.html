@@ -22,6 +22,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body { 
@@ -77,6 +79,48 @@
         .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 4px; }
         .lightbox-caption { color: #ccc; font-size: 0.875rem; margin-top: 1rem; text-align: center; max-width: 600px; }
         .drop-zone-active { border-color: #3b82f6 !important; background: rgba(59,130,246,0.05) !important; }
+
+        /* Journey Map */
+        #journey-map-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 280px;
+            height: 200px;
+            z-index: 50;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            pointer-events: none;
+        }
+        #journey-map-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        #journey-map-container .map-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            padding: 24px 12px 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        #journey-map { width: 100%; height: 100%; }
+        .leaflet-control-attribution { font-size: 8px !important; }
+        .leaflet-control-zoom { display: none !important; }
+        @media (max-width: 768px) {
+            #journey-map-container { width: 160px; height: 120px; bottom: 1rem; right: 1rem; }
+        }
     </style>
 </head>
 <body class="theme-prewar antialiased" id="body-container">
@@ -84,6 +128,12 @@
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded">
         Skip to main content
     </a>
+
+    <!-- Journey Map -->
+    <div id="journey-map-container">
+        <div id="journey-map"></div>
+        <div class="map-label" id="map-label"></div>
+    </div>
 
     <nav class="nav-timeline hidden md:flex" id="navTimeline" aria-label="Timeline navigation">
         <a href="#hero" class="nav-dot active" data-target="hero" aria-label="Title"><span aria-hidden="true">Title</span></a>
@@ -578,6 +628,115 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.fade-section').forEach(s => fadeObserver.observe(s));
+
+        // =============================================
+        // JOURNEY MAP
+        // =============================================
+        const mapContainer = document.getElementById('journey-map-container');
+        const mapLabel = document.getElementById('map-label');
+
+        const journeyMap = L.map('journey-map', {
+            zoomControl: false,
+            dragging: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            touchZoom: false,
+            keyboard: false,
+            attributionControl: true
+        }).setView([50.3, 19.1], 6);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OSM &copy; CARTO',
+            maxZoom: 15
+        }).addTo(journeyMap);
+
+        // Journey waypoints: [lat, lng, label, zoom]
+        const waypoints = {
+            'hero':   { coords: [50.32, 19.13], label: 'Bedzin, Poland', zoom: 6 },
+            'pre-1':  { coords: [50.32, 19.13], label: 'Bedzin (Bendein), Poland', zoom: 10 },
+            'pre-2':  { coords: [50.29, 19.11], label: 'Bedzin \u2192 Sosnowiec', zoom: 11 },
+            'war-1':  { coords: [50.32, 19.13], label: 'Bedzin, Poland \u2014 Sept 1939', zoom: 10 },
+            'war-2':  { coords: [51.62, 15.33], label: 'Sagan (\u017Baga\u0144), Germany', zoom: 7 },
+            'war-3':  { coords: [51.94, 15.51], label: 'Greenberg (Zielona G\u00F3ra), Silesia', zoom: 7 },
+            'war-4':  { coords: [51.94, 15.51], label: 'Greenberg, Silesia', zoom: 7 },
+            'war-5':  { coords: [50.5, 13.5],   label: 'Death March \u2014 across Saxony', zoom: 7 },
+            'war-6':  { coords: [49.01, 13.99], label: 'Prachatice, Czechoslovakia', zoom: 8 },
+            'post-1': { coords: [50.32, 19.13], label: 'Bedzin, Poland \u2014 return', zoom: 8 },
+            'post-2': { coords: [47.95, 11.29], label: 'Feldafing / Munich, Germany', zoom: 8 },
+            'post-3': { coords: [47.0, -10.0],  label: 'Halifax \u2192 Toronto, Canada', zoom: 3 }
+        };
+
+        // Route line drawn progressively
+        const routeCoords = [
+            [50.32, 19.13],  // Bedzin
+            [51.62, 15.33],  // Sagan
+            [51.94, 15.51],  // Greenberg
+            [50.5, 13.5],    // Death march
+            [49.01, 13.99],  // Prachatice
+            [50.32, 19.13],  // Return to Bedzin
+            [47.95, 11.29],  // Feldafing/Munich
+            [44.65, -63.57], // Halifax
+            [43.65, -79.38]  // Toronto
+        ];
+
+        // Map section index to how many route segments to show
+        const routeProgress = {
+            'hero': 0, 'pre-1': 0, 'pre-2': 0, 'war-1': 0,
+            'war-2': 1, 'war-3': 2, 'war-4': 2,
+            'war-5': 3, 'war-6': 4,
+            'post-1': 5, 'post-2': 6, 'post-3': 8
+        };
+
+        let routeLine = null;
+        let currentMarker = null;
+        let currentMapSection = null;
+
+        function updateMap(sectionId) {
+            if (currentMapSection === sectionId) return;
+            currentMapSection = sectionId;
+
+            const wp = waypoints[sectionId];
+            if (!wp) {
+                mapContainer.classList.remove('visible');
+                return;
+            }
+
+            mapContainer.classList.add('visible');
+            mapLabel.textContent = wp.label;
+            journeyMap.flyTo(wp.coords, wp.zoom, { duration: 1.2 });
+
+            // Update marker
+            if (currentMarker) journeyMap.removeLayer(currentMarker);
+            currentMarker = L.circleMarker(wp.coords, {
+                radius: 6, color: '#dc2626', fillColor: '#dc2626',
+                fillOpacity: 0.9, weight: 2
+            }).addTo(journeyMap);
+
+            // Update route line
+            if (routeLine) journeyMap.removeLayer(routeLine);
+            const segments = routeProgress[sectionId] || 0;
+            if (segments > 0) {
+                routeLine = L.polyline(routeCoords.slice(0, segments + 1), {
+                    color: '#dc2626', weight: 2, opacity: 0.5,
+                    dashArray: '6, 8'
+                }).addTo(journeyMap);
+            }
+
+            setTimeout(() => journeyMap.invalidateSize(), 300);
+        }
+
+        // Hook into the existing section observer to update map
+        const mapObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    if (id && waypoints[id]) updateMap(id);
+                    else mapContainer.classList.remove('visible');
+                }
+            });
+        }, { root: null, rootMargin: '-40% 0px -60% 0px', threshold: 0 });
+
+        sections.forEach(section => mapObserver.observe(section));
 
         // =============================================
         // PHOTO SYSTEM
