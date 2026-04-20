@@ -144,7 +144,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-pre-1"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-pre-1"></div>
                 </div>
             </section>
 
@@ -175,7 +175,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-pre-2"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-pre-2"></div>
                 </div>
             </section>
 
@@ -203,7 +203,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-1"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-1"></div>
                 </div>
             </section>
 
@@ -234,7 +234,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-2"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-2"></div>
                 </div>
             </section>
 
@@ -265,7 +265,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-3"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-3"></div>
                 </div>
             </section>
 
@@ -296,7 +296,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-4"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-4"></div>
                 </div>
             </section>
 
@@ -327,7 +327,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-5"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-5"></div>
                 </div>
             </section>
 
@@ -358,7 +358,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-war-6"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-6"></div>
                 </div>
             </section>
 
@@ -389,7 +389,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-post-1"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-post-1"></div>
                 </div>
             </section>
 
@@ -420,7 +420,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-post-2"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-post-2"></div>
                 </div>
             </section>
 
@@ -451,7 +451,7 @@
                             <span class="text-lg leading-none">+</span><span>Add Photo</span>
                         </button>
                     </div>
-                    <div class="photo-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="photos-post-3"></div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-post-3"></div>
                 </div>
             </section>
 
@@ -660,16 +660,44 @@
                     <img src="${publicUrl}" alt="${photo.caption || 'Family photo'}"
                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                          loading="lazy">
+                    <button class="delete-photo absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 text-white text-xs
+                                   opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 flex items-center justify-center"
+                            aria-label="Remove photo" title="Remove photo">&times;</button>
                     ${photo.caption || photo.contributor_name ? `
-                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2
                                 opacity-0 group-hover:opacity-100 transition-opacity">
                         ${photo.caption ? `<p class="text-white text-xs">${photo.caption}</p>` : ''}
                         ${photo.contributor_name && photo.contributor_name !== 'Family Member' ? `<p class="text-white/60 text-xs mt-1">- ${photo.contributor_name}</p>` : ''}
                     </div>` : ''}
                 `;
+                card.querySelector('.delete-photo').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deletePhoto(photo.id, photo.image_path, photo.section_id);
+                });
                 card.addEventListener('click', () => openLightbox(publicUrl, photo.caption));
                 grid.appendChild(card);
             });
+        }
+
+        // Delete a photo
+        async function deletePhoto(photoId, imagePath, sectionId) {
+            if (!confirm('Remove this photo?')) return;
+
+            // Delete from storage
+            await sb.storage.from(BUCKET).remove([imagePath]);
+
+            // Delete from database
+            await sb.from('photos').delete().eq('id', photoId);
+
+            // Reload section photos
+            const { data } = await sb
+                .from('photos')
+                .select('*')
+                .eq('section_id', sectionId)
+                .eq('is_visible', true)
+                .order('created_at', { ascending: true });
+
+            renderPhotos(sectionId, data || []);
         }
 
         // Lightbox
