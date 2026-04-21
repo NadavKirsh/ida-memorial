@@ -1609,16 +1609,20 @@
                 progressBar.style.width = '100%';
                 progressText.textContent = 'Done!';
 
-                // Reload this section's photos
-                const snapshot = await db.collection('photos')
-                    .where('section_id', '==', currentSection)
-                    .where('is_visible', '==', true)
-                    .orderBy('created_at')
-                    .get();
+                // Try to reload photos; if index isn't ready, just close modal
+                try {
+                    const snapshot = await db.collection('photos')
+                        .where('section_id', '==', currentSection)
+                        .where('is_visible', '==', true)
+                        .orderBy('created_at')
+                        .get();
 
-                const photos = [];
-                snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
-                renderPhotos(currentSection, photos);
+                    const photos = [];
+                    snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
+                    renderPhotos(currentSection, photos);
+                } catch (e) {
+                    console.warn('Photo reload failed (index may be building). Refresh to see photos.', e);
+                }
 
                 setTimeout(closeModal, 800);
             } catch (err) {
