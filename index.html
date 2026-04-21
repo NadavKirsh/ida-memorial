@@ -21,7 +21,9 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%AF%EF%B8%8F%3C/text%3E%3C/svg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -1224,23 +1226,24 @@
 
     <script>
         // =============================================
-        // SUPABASE CONFIG — Replace with your own keys
+        // FIREBASE CONFIG
         // =============================================
-        const SUPABASE_URL = 'https://ahlttpizzmppxbfisegq.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFobHR0cGl6em1wcHhiZmlzZWdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MDUyMTQsImV4cCI6MjA5MjI4MTIxNH0.qJvh778dJlJ2zAdPs0FA8oHN7NlfKbLPEXy6qrsp77w';
-        const BUCKET = 'memorial-photos';
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfdf-MeXGqUGyoKVgjR7RO2hlWTR0l35A",
+            authDomain: "ida-memorial.firebaseapp.com",
+            projectId: "ida-memorial",
+            storageBucket: "ida-memorial.firebasestorage.app",
+            messagingSenderId: "426288442675",
+            appId: "1:426288442675:web:68fb97a36b00c0fb862246"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
         const MAX_DIMENSION = 1600;
 
-        let sb = null;
         let currentSection = null;
         let selectedFile = null;
-
-        // Initialize Supabase if configured
-        function initSupabase() {
-            if (SUPABASE_URL === 'YOUR_SUPABASE_URL') return false;
-            sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            return true;
-        }
 
         // =============================================
         // THEME & NAV (existing functionality)
@@ -1430,17 +1433,14 @@
 
         // Load all photos on page load
         async function loadAllPhotos() {
-            if (!sb) return;
-            const { data, error } = await sb
-                .from('photos')
-                .select('*')
-                .eq('is_visible', true)
-                .order('created_at', { ascending: true });
-
-            if (error || !data) return;
+            const snapshot = await db.collection('photos')
+                .where('is_visible', '==', true)
+                .orderBy('created_at')
+                .get();
 
             const grouped = {};
-            data.forEach(photo => {
+            snapshot.forEach(doc => {
+                const photo = { id: doc.id, ...doc.data() };
                 if (!grouped[photo.section_id]) grouped[photo.section_id] = [];
                 grouped[photo.section_id].push(photo);
             });
@@ -1457,12 +1457,10 @@
             grid.innerHTML = '';
 
             photos.forEach(photo => {
-                const { data: { publicUrl } } = sb.storage.from(BUCKET).getPublicUrl(photo.image_path);
-
                 const card = document.createElement('div');
                 card.className = 'group relative rounded-lg overflow-hidden cursor-pointer aspect-square';
                 card.innerHTML = `
-                    <img src="${publicUrl}" alt="${photo.caption || 'Family photo'}"
+                    <img src="${photo.download_url}" alt="${photo.caption || 'Family photo'}"
                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                          loading="lazy">
                     <button class="delete-photo absolute top-1 right-1 w-6 h-6 rounded-full bg-black/60 text-white text-xs
@@ -1479,7 +1477,7 @@
                     e.stopPropagation();
                     deletePhoto(photo.id, photo.image_path, photo.section_id);
                 });
-                card.addEventListener('click', () => openLightbox(publicUrl, photo.caption));
+                card.addEventListener('click', () => openLightbox(photo.download_url, photo.caption));
                 grid.appendChild(card);
             });
         }
@@ -1488,21 +1486,22 @@
         async function deletePhoto(photoId, imagePath, sectionId) {
             if (!confirm('Remove this photo?')) return;
 
-            // Delete from storage
-            await sb.storage.from(BUCKET).remove([imagePath]);
+            try {
+                await storage.ref(imagePath).delete();
+            } catch (e) { /* file may already be gone */ }
 
-            // Delete from database
-            await sb.from('photos').delete().eq('id', photoId);
+            await db.collection('photos').doc(photoId).delete();
 
             // Reload section photos
-            const { data } = await sb
-                .from('photos')
-                .select('*')
-                .eq('section_id', sectionId)
-                .eq('is_visible', true)
-                .order('created_at', { ascending: true });
+            const snapshot = await db.collection('photos')
+                .where('section_id', '==', sectionId)
+                .where('is_visible', '==', true)
+                .orderBy('created_at')
+                .get();
 
-            renderPhotos(sectionId, data || []);
+            const photos = [];
+            snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
+            renderPhotos(sectionId, photos);
         }
 
         // Lightbox
@@ -1572,7 +1571,7 @@
 
         // Upload
         async function uploadPhoto() {
-            if (!selectedFile || !currentSection || !sb) return;
+            if (!selectedFile || !currentSection) return;
 
             submitBtn.disabled = true;
             progressArea.classList.remove('hidden');
@@ -1581,54 +1580,51 @@
 
             const resized = await resizeImage(selectedFile, MAX_DIMENSION);
 
-            const filename = `${currentSection}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+            const filename = `memorial-photos/${currentSection}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
 
             progressText.textContent = 'Uploading...';
             progressBar.style.width = '50%';
 
-            const { error: uploadError } = await sb.storage
-                .from(BUCKET)
-                .upload(filename, resized, { contentType: 'image/webp', upsert: false });
+            try {
+                const ref = storage.ref(filename);
+                await ref.put(resized, { contentType: 'image/webp' });
+                const downloadURL = await ref.getDownloadURL();
 
-            if (uploadError) {
+                progressBar.style.width = '80%';
+                progressText.textContent = 'Saving...';
+
+                const caption = document.getElementById('photo-caption').value.trim();
+                const contributor = document.getElementById('contributor-name').value.trim();
+
+                await db.collection('photos').add({
+                    section_id: currentSection,
+                    image_path: filename,
+                    download_url: downloadURL,
+                    caption: caption,
+                    contributor_name: contributor || 'Family Member',
+                    created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                    is_visible: true
+                });
+
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Done!';
+
+                // Reload this section's photos
+                const snapshot = await db.collection('photos')
+                    .where('section_id', '==', currentSection)
+                    .where('is_visible', '==', true)
+                    .orderBy('created_at')
+                    .get();
+
+                const photos = [];
+                snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
+                renderPhotos(currentSection, photos);
+
+                setTimeout(closeModal, 800);
+            } catch (err) {
                 progressText.textContent = 'Upload failed. Please try again.';
                 submitBtn.disabled = false;
-                return;
             }
-
-            progressBar.style.width = '80%';
-            progressText.textContent = 'Saving...';
-
-            const caption = document.getElementById('photo-caption').value.trim();
-            const contributor = document.getElementById('contributor-name').value.trim();
-
-            const { error: dbError } = await sb.from('photos').insert({
-                section_id: currentSection,
-                image_path: filename,
-                caption: caption,
-                contributor_name: contributor || 'Family Member',
-            });
-
-            if (dbError) {
-                progressText.textContent = 'Failed to save. Please try again.';
-                submitBtn.disabled = false;
-                return;
-            }
-
-            progressBar.style.width = '100%';
-            progressText.textContent = 'Done!';
-
-            // Reload this section's photos
-            const { data } = await sb
-                .from('photos')
-                .select('*')
-                .eq('section_id', currentSection)
-                .eq('is_visible', true)
-                .order('created_at', { ascending: true });
-
-            if (data) renderPhotos(currentSection, data);
-
-            setTimeout(closeModal, 800);
         }
 
         // Event listeners
@@ -1651,10 +1647,6 @@
         // Wire up all "+" buttons
         document.querySelectorAll('.upload-trigger').forEach(btn => {
             btn.addEventListener('click', () => {
-                if (!sb) {
-                    alert('Photo uploads are not yet configured. The site owner needs to set up Supabase and add the project credentials.');
-                    return;
-                }
                 openModal(btn.dataset.section);
             });
         });
@@ -1665,9 +1657,7 @@
         });
 
         // Initialize
-        if (initSupabase()) {
-            loadAllPhotos();
-        }
+        loadAllPhotos();
 
         // =============================================
         // EULOGIES
