@@ -1433,21 +1433,42 @@
 
         // Load all photos on page load
         async function loadAllPhotos() {
-            const snapshot = await db.collection('photos')
-                .where('is_visible', '==', true)
-                .orderBy('created_at')
-                .get();
+            const snapshot = await db.collection('photos').get();
 
             const grouped = {};
             snapshot.forEach(doc => {
                 const photo = { id: doc.id, ...doc.data() };
+                if (!photo.is_visible) return;
                 if (!grouped[photo.section_id]) grouped[photo.section_id] = [];
                 grouped[photo.section_id].push(photo);
             });
 
+            // Sort each group by created_at
+            Object.values(grouped).forEach(arr => arr.sort((a, b) => {
+                const ta = a.created_at ? a.created_at.toMillis() : 0;
+                const tb = b.created_at ? b.created_at.toMillis() : 0;
+                return ta - tb;
+            }));
+
             Object.entries(grouped).forEach(([sectionId, photos]) => {
                 renderPhotos(sectionId, photos);
             });
+        }
+
+        // Load photos for a single section
+        async function loadSectionPhotos(sectionId) {
+            const snapshot = await db.collection('photos').get();
+            const photos = [];
+            snapshot.forEach(doc => {
+                const photo = { id: doc.id, ...doc.data() };
+                if (photo.section_id === sectionId && photo.is_visible) photos.push(photo);
+            });
+            photos.sort((a, b) => {
+                const ta = a.created_at ? a.created_at.toMillis() : 0;
+                const tb = b.created_at ? b.created_at.toMillis() : 0;
+                return ta - tb;
+            });
+            renderPhotos(sectionId, photos);
         }
 
         // Render photos into a section grid
@@ -1492,16 +1513,7 @@
 
             await db.collection('photos').doc(photoId).delete();
 
-            // Reload section photos
-            const snapshot = await db.collection('photos')
-                .where('section_id', '==', sectionId)
-                .where('is_visible', '==', true)
-                .orderBy('created_at')
-                .get();
-
-            const photos = [];
-            snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
-            renderPhotos(sectionId, photos);
+            await loadSectionPhotos(sectionId);
         }
 
         // Lightbox
@@ -1609,20 +1621,7 @@
                 progressBar.style.width = '100%';
                 progressText.textContent = 'Done!';
 
-                // Try to reload photos; if index isn't ready, just close modal
-                try {
-                    const snapshot = await db.collection('photos')
-                        .where('section_id', '==', currentSection)
-                        .where('is_visible', '==', true)
-                        .orderBy('created_at')
-                        .get();
-
-                    const photos = [];
-                    snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
-                    renderPhotos(currentSection, photos);
-                } catch (e) {
-                    console.warn('Photo reload failed (index may be building). Refresh to see photos.', e);
-                }
+                await loadSectionPhotos(currentSection);
 
                 setTimeout(closeModal, 800);
             } catch (err) {
