@@ -122,6 +122,30 @@
         @media (max-width: 768px) {
             #journey-map-container { width: 160px; height: 120px; bottom: 1rem; right: 1rem; }
         }
+
+        /* Language Toggle */
+        #lang-toggle { cursor: pointer; transition: all 0.3s ease; position: fixed; top: 1rem; right: 1.5rem; z-index: 60; }
+        div[lang="he"], span[lang="he"], h1[lang="he"], h2[lang="he"], h3[lang="he"], h4[lang="he"], p[lang="he"] { display: none; }
+        body.hebrew div[lang="he"], body.hebrew span[lang="he"], body.hebrew h1[lang="he"], body.hebrew h2[lang="he"], body.hebrew h3[lang="he"], body.hebrew h4[lang="he"], body.hebrew p[lang="he"] { display: block; }
+        body.hebrew span[lang="he"] { display: inline; }
+        body.hebrew div[lang="en"], body.hebrew span[lang="en"], body.hebrew h1[lang="en"], body.hebrew h2[lang="en"], body.hebrew h3[lang="en"], body.hebrew h4[lang="en"], body.hebrew p[lang="en"] { display: none; }
+        body.hebrew .md\:text-right { text-align: left; }
+        body.hebrew .md\:pr-12 { padding-right: 0; padding-left: 3rem; }
+        body.hebrew .md\:pl-12 { padding-left: 0; padding-right: 3rem; }
+        body.hebrew .content-wrapper { padding-left: 1rem; padding-right: 5rem; }
+        body.hebrew .nav-timeline { left: auto; right: 2rem; }
+        body.hebrew .nav-dot span { left: auto; right: 25px; }
+        /* Ida's drawing */
+        .ida-drawing { transition: all 0.6s ease; }
+        body.hebrew .ida-drawing { left: 50%; right: auto; }
+        /* Eulogy cards */
+        .eulogy-card { border: none; font-family: inherit; }
+        .eulogy-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        @media (max-width: 768px) {
+            body.hebrew .content-wrapper { padding-right: 1rem; }
+            #lang-toggle { top: 0.5rem; right: 0.5rem; }
+            .ida-drawing { w-40; opacity: 0.2; -top-8; }
+        }
     </style>
 </head>
 <body class="theme-prewar antialiased" id="body-container">
@@ -129,6 +153,8 @@
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded">
         Skip to main content
     </a>
+
+    <button id="lang-toggle" class="glass-card px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-80 transition-opacity">עברית</button>
 
     <!-- Journey Map -->
     <div id="journey-map-container">
@@ -138,6 +164,7 @@
 
     <nav class="nav-timeline hidden md:flex" id="navTimeline" aria-label="Timeline navigation">
         <a href="#hero" class="nav-dot active" data-target="hero" aria-label="Title"><span aria-hidden="true">Title</span></a>
+        <a href="#prologue" class="nav-dot" data-target="prologue" aria-label="Prologue"><span aria-hidden="true">Prologue</span></a>
         <a href="#pre-1" class="nav-dot" data-target="pre-1" aria-label="1924: Bendein"><span aria-hidden="true">1924: Bendein</span></a>
         <a href="#pre-2" class="nav-dot" data-target="pre-2" aria-label="1931: Hard Times"><span aria-hidden="true">1931: Hard Times</span></a>
         <a href="#war-1" class="nav-dot" data-target="war-1" aria-label="1939: The Fire"><span aria-hidden="true">1939: The Fire</span></a>
@@ -150,49 +177,168 @@
         <a href="#post-2" class="nav-dot" data-target="post-2" aria-label="1946: Rebuilding"><span aria-hidden="true">1946: Rebuilding</span></a>
         <a href="#post-3" class="nav-dot" data-target="post-3" aria-label="1948: Canada"><span aria-hidden="true">1948: Canada</span></a>
         <a href="#about" class="nav-dot" data-target="about" aria-label="About This Archive"><span aria-hidden="true">About</span></a>
+        <a href="#eulogies" class="nav-dot" data-target="eulogies" aria-label="Eulogies"><span aria-hidden="true">Eulogies</span></a>
     </nav>
 
     <div class="content-wrapper">
         
         <header id="hero" class="h-screen flex flex-col justify-center items-center text-center relative section-block" data-theme="theme-prewar">
-            <h1 class="text-6xl md:text-8xl mb-4 tracking-tight">Ida (Yittale) Kafka</h1>
-            <p class="text-2xl md:text-3xl italic opacity-70 mb-8">1924 &mdash; 2009</p>
-            <div class="max-w-2xl text-lg leading-relaxed italic border-t border-b border-current py-6 opacity-80">
-                "To not mention her parents' names—Chaya and Eli Boruch Rakowsky—would be to delete the very essence of my Mother's being. And oh, what a being she was."
+            <div lang="en">
+                <h1 class="text-6xl md:text-8xl mb-4 tracking-tight">Ida (Yittale) Kafka</h1>
+                <p class="text-2xl md:text-3xl italic opacity-70 mb-8">February 9, 1924 &mdash; August 4, 2009</p>
+                <div class="max-w-2xl text-lg leading-relaxed italic border-t border-b border-current py-6 opacity-80">
+                    "To not mention her parents' names—Chaya and Eli Boruch Rakowsky—would be to delete the very essence of my Mother's being. And oh, what a being she was."
+                </div>
+            </div>
+            <div lang="he" dir="rtl">
+                <h1 class="text-6xl md:text-8xl mb-4 tracking-tight">אידה (יטל׳ה) קפקא</h1>
+                <p class="text-2xl md:text-3xl italic opacity-70 mb-8">9 בפברואר 1924 &mdash; 4 באוגוסט 2009</p>
+                <div class="max-w-2xl text-lg leading-relaxed italic border-t border-b border-current py-6 opacity-80">
+                    "לא להזכיר את שמות הוריה — חיה ואלי ברוך רקובסקי — זה למחוק את עצם מהותה של אמי. ואוי, איזו מהות היתה לה."
+                </div>
             </div>
             <div class="mt-20 animate-bounce opacity-60">
-                <span class="text-xs uppercase tracking-[0.3em] block mb-2">Scroll</span>
+                <span lang="en" class="text-xs uppercase tracking-[0.3em] block mb-2">Scroll</span>
+                <span lang="he" class="text-xs uppercase tracking-[0.3em] block mb-2">גלול</span>
                 <span class="text-3xl">↓</span>
             </div>
         </header>
 
         <main id="main-content" class="relative overflow-hidden">
-            
-            <section id="pre-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar" role="region" aria-label="1924: Childhood in Bendein">
+
+            <section id="prologue" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar" role="region" aria-label="Prologue: Why She Wrote">
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
-                        <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">February 9, 1924</span>
-                        <h3 class="text-4xl mb-6">Childhood in Bendein</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            Ida was born overlooking an old castle and the Przemsha River. The family lived in a single large room serving as kitchen, bedroom, and living space. Despite modest means, the home overflowed with "Yeddishkite" and warmth.
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            Friday nights were sacred. Before Shabbat, Ida and her friend Salla would walk designated streets collecting challah for the needy in a white pillowcase. As she entered those homes, she felt the air take on a "heavenly peace," leaving the hardships of the week behind.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">A Daughter's Introduction</span>
+                            <h3 class="text-4xl mb-6">Why She Wrote</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                "She was not just Yitta Kafka," her daughter Rachel Bahar wrote. "What made her the person that she truly was, the essence of her being, memories, experiences and teachings, were her Parents Chaya and Eli Boruch Rakowsky." To understand Ida is to understand the world she came from -- a world of deep faith, unbreakable family bonds, and a Jewish life so rich that even the horror of its destruction could not erase it from her heart.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Ida herself explained why she put pen to paper: "For a very long time, I've been contemplating the idea of writing a few words about my life... A Yerusha (an inheritance or legacy) for our dear children and future generations to Remember!" She felt compelled by something larger than herself: "It is with an overwhelming gratitude and my heart overflowing with thanks to Hashem, that necessitates my action, to reveal the countless miracles which I have encountered."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                Rachel observed that her mother possessed an extraordinary gift: "She could see the hand of G-d in every word, thing, creature and human that she encountered. For that reason, even having endured the most vile and horrific of mankind's evils, she never hated any part of humanity, only their actions and deeds." This was the lens through which Ida saw the world -- not with bitterness, but with a faith that refused to be extinguished.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">הקדמת הבת</span>
+                            <h3 class="text-4xl mb-6">למה היא כתבה</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                "היא לא היתה סתם יטא קפקא," כתבה בתה רחל בהר. "מה שעשה אותה לאדם שבאמת היתה, מהות ישותה, זיכרונותיה, חוויותיה ולקחיה, היו הוריה חיה ואלי ברוך רקובסקי." להבין את אידה פירושו להבין את העולם שממנו באה -- עולם של אמונה עמוקה, קשרים משפחתיים בלתי ניתנים לשבירה, וחיים יהודיים כה עשירים שאף זוועות חורבנם לא הצליחו למחוק אותם מליבה.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                אידה עצמה הסבירה מדוע נטלה עט ביד: "זמן רב מאוד הרהרתי ברעיון לכתוב כמה מילים על חיי... ירושה לילדינו היקרים ולדורות הבאים לזכור!" היא חשה מונעת על ידי דבר גדול ממנה: "בהכרת תודה עצומה ובלב גדוש תודה לה׳, אני מחויבת לפעול, לגלות את הניסים הרבים שחוויתי."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                רחל ציינה כי לאמה היתה מתנה יוצאת דופן: "היא ידעה לראות את יד ה׳ בכל מילה, דבר, יצור ואדם שפגשה. מסיבה זו, גם לאחר שסבלה מרשעות האנושות המחרידה ביותר, היא מעולם לא שנאה חלק כלשהו מהאנושות, רק את מעשיהם ופעולותיהם." כך ראתה אידה את העולם -- לא במרירות, אלא באמונה שסירבה להיכבות.
+                            </p>
+                        </div>
                     </div>
                     <div class="md:pl-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">Historical Context</h4>
-                        <p class="text-sm opacity-80 italic leading-relaxed">
-                            Pre-war Bedzin (Bendein) was a thriving hub of Jewish culture in Poland. Jews made up nearly half the town's population, creating a deeply connected, charitable, and spiritually rich community despite widespread economic struggles.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">Historical Context</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                Before the war, Bedzin (Bendein) was home to approximately 28,000 Jews -- nearly 45% of the city's total population. The community sustained dozens of synagogues, prayer houses, charitable organizations, and a vibrant network of Jewish schools. Religious life permeated every aspect of daily existence, from the rhythms of Shabbat to the communal celebrations of holidays.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                By the war's end, the Jewish community of Bedzin had been almost entirely annihilated. Of its roughly 28,000 Jewish residents, only a few hundred survived. The world Ida recorded in her memoir existed, by the time she wrote it, only in the memories of those who had lived it.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">הקשר היסטורי</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                לפני המלחמה, בנדין (Bedzin) היתה ביתם של כ-28,000 יהודים -- כמעט 45% מאוכלוסיית העיר. הקהילה החזיקה עשרות בתי כנסת, בתי תפילה, ארגוני צדקה ורשת תוססת של בתי ספר יהודיים. החיים הדתיים חדרו לכל היבט של הקיום היומיומי, ממקצבי השבת ועד לחגיגות החגים הקהילתיות.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                עד תום המלחמה, הקהילה היהודית של בנדין הושמדה כמעט כליל. מתוך כ-28,000 תושביה היהודים, שרדו רק מאות ספורים. העולם שאידה תיעדה בזיכרונותיה היה קיים, בעת שכתבה, רק בזיכרונם של אלה שחיו בו.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
+                        <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="prologue" aria-label="Add a photo to Prologue">
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
+                        </button>
+                    </div>
+                    <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-prologue"></div>
+                </div>
+            </section>
+
+            <section id="pre-1" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-prewar" role="region" aria-label="1924: Childhood in Bendein">
+                <div class="station-line hidden md:block"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="md:text-right md:pr-12">
+                        <div lang="en">
+                            <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">February 9, 1924</span>
+                            <h3 class="text-4xl mb-6">Childhood in Bendein</h3>
+
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Yitta Rakowsky was born overlooking the ancient castle and the Przemsha River, the eldest of three girls -- Yitta, Dina, and Rivka (Rivkale). The family lived in "one large room, which served as bedroom, kitchen and living room." Her father Eli Boruch owned a small factory producing wooden products for bakeries, in partnership with his brother. Despite modest means, the home overflowed with "Yeddishkite" and warmth. So devoted was her mother Chaya that "the walls of the house had not even seen her Mother's uncovered head" -- she always wore her wig, even in the privacy of home.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Friday nights were sacred. Before Shabbat, Ida and her dear friend Salla Piekurska would walk designated streets collecting challah for the needy in a white pillowcase. As she entered those homes, she felt the air take on a "heavenly peace," leaving the hardships of the week behind. On Friday evenings, her father took her along to shul, where they lingered after services to hear the choir. Once, they waited in the crowd to hear the renowned Chazan Yosele Rozenblat, whose voice filled the synagogue like a prayer made audible.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Her education was divided between worlds: Bais Yaakov for Jewish schooling, where she absorbed Torah and the values her parents cherished, and the public Gymnasium, where she learned alongside Polish children. "Easter and Christmas was a precarious time in the streets, and the Jews knew to keep a low profile," she recalled. But there were also moments of pure childhood joy -- a beloved school trip to a cave near Krakow left her feeling "privileged and grown-up."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                Near her aunt's house stood a fire hall on the riverbank. Through its open windows, Ida could hear the firemen's band rehearsing, and she taught herself Sousa's marches by ear -- music that would echo in her mind for decades. Her mother's quiet teachings shaped her character above all: "We cannot speak about other people, it is loshon Hara. We must guard our speech." These words, simple and absolute, became the moral foundation she carried through everything that followed.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">9 בפברואר 1924</span>
+                            <h3 class="text-4xl mb-6">ילדות בבנדין</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                יטא רקובסקי נולדה עם נוף לטירה העתיקה ולנהר פשמשה, הבכורה מבין שלוש בנות -- יטא, דינה וריבקה (ריבקל׳ה). המשפחה התגוררה ב"חדר גדול אחד, ששימש כחדר שינה, מטבח וסלון." אביה אלי ברוך היה בעלים של מפעל קטן לייצור מוצרי עץ למאפיות, בשותפות עם אחיו. למרות האמצעים הדלים, הבית היה מלא "אידישקייט" וחמימות. אמה חיה היתה כה צנועה ש"קירות הבית לא ראו מעולם את ראשה המגולה של אמה" -- היא חבשה פאה תמיד, אף בפרטיות הבית.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                ליל שבת היה קדוש. לפני שבת, אידה וחברתה היקרה סאלא פיקורסקה היו מהלכות ברחובות ייעודיים ואוספות חלות לנזקקים בציפית לבנה. כשנכנסה לאותם בתים, הרגישה שהאוויר מתמלא "שלווה שמימית," ומותיר מאחור את קשיי השבוע. בערבי שבת, אביה לקח אותה עמו לבית הכנסת, שם התעכבו אחרי התפילה לשמוע את המקהלה. פעם אחת, חיכו בקהל לשמוע את החזן המפורסם יוסל׳ה רוזנבלט, שקולו מילא את בית הכנסת כתפילה שהפכה לנשמעת.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                חינוכה התחלק בין שני עולמות: Bais Yaakov ללימודים יהודיים, שם ספגה תורה ואת הערכים שהוריה טיפחו, והגימנסיה הציבורית, שם למדה לצד ילדים פולנים. "פסחא וחג המולד היו תקופות מסוכנות ברחובות, והיהודים ידעו לשמור על פרופיל נמוך," נזכרה. אך היו גם רגעים של שמחת ילדות טהורה -- טיול בית ספרי אהוב למערה ליד קרקוב השאיר אותה מרגישה "מיוחסת ובוגרת."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                ליד בית דודתה עמדה תחנת כיבוי אש על גדת הנהר. דרך חלונותיה הפתוחים, אידה יכלה לשמוע את תזמורת הכבאים מתרגלת, והיא לימדה את עצמה את מצעדי סוזה על פי שמיעה -- מוזיקה שהדהדה בנפשה עשרות שנים. לימודי אמה השקטים עיצבו את אופייה מכל: "אסור לנו לדבר על אנשים אחרים, זה לשון הרע. עלינו לשמור על דיבורנו." מילים אלה, פשוטות ומוחלטות, הפכו ליסוד המוסרי שנשאה עמה דרך כל מה שבא אחר כך.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="md:pl-12 glass-card p-8 rounded-lg relative overflow-visible">
+                        <div class="ida-drawing absolute -top-[32rem] left-1/2 -translate-x-1/2 pointer-events-none select-none text-center">
+                            <img src="ida-drawing.png" alt="A drawing of flowers in a vase, by Ida as a child" class="w-72 md:w-[22rem] opacity-[0.65]" aria-hidden="true">
+                            <p class="text-xs italic opacity-50 mt-2">Original artwork by: Itka Rakowska</p>
+                        </div>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">Historical Context</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                Pre-war Bedzin (Bendein) was home to roughly 28,000 Jews -- nearly half the city's population -- making it one of the most significant Jewish centers in the Zaglebie region of Upper Silesia. The community sustained dozens of synagogues, a rich network of charitable organizations, and a vibrant cultural life that spanned Yiddish theater, Hebrew study, and political movements from Bundism to Zionism.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                The Bais Yaakov movement, founded by Sarah Schenirer in nearby Krakow in 1917, had transformed girls' Jewish education across Poland by the time Ida attended. For the first time, young Jewish women received formal religious instruction, a revolution in Orthodox life that gave girls like Ida a deep grounding in Torah and tradition alongside their secular education.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">הקשר היסטורי</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                בנדין (Bedzin) לפני המלחמה היתה ביתם של כ-28,000 יהודים -- כמעט מחצית אוכלוסיית העיר -- מה שהפך אותה לאחד המרכזים היהודיים המשמעותיים ביותר באזור זגלמביה שבשלזיה העילית. הקהילה החזיקה עשרות בתי כנסת, רשת עשירה של ארגוני צדקה, וחיי תרבות תוססים שכללו תיאטרון יידיש, לימודי עברית, ותנועות פוליטיות מהבונד ועד הציונות.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                תנועת Bais Yaakov, שנוסדה על ידי שרה שנירר בקרקוב הסמוכה ב-1917, חוללה מהפכה בחינוך היהודי לבנות ברחבי פולין עד שאידה למדה שם. לראשונה, נשים יהודיות צעירות קיבלו חינוך דתי פורמלי, מהפכה בחיים האורתודוקסיים שהעניקה לבנות כמו אידה יסודות עמוקים בתורה ובמסורת לצד חינוכן החילוני.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="pre-1" aria-label="Add a photo to Childhood in Bendein">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-pre-1"></div>
@@ -203,27 +349,66 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">The Profession</h4>
-                        <p class="text-sm opacity-80 italic leading-relaxed">
-                            With rising anti-Semitism and economic boycotts in the late 1930s, securing a physical trade was seen as a vital lifeline. Vocational training offered a semblance of security against an unknown future.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">Historical Context</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                Interwar Poland was marked by severe economic hardship for its Jewish population. Government-imposed restrictions, anti-Jewish economic boycotts, and widespread discrimination made earning a living increasingly precarious. Jewish families in industrial towns like Bedzin and Sosnowiec faced particular pressure as Polish nationalists targeted Jewish-owned businesses.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                In this climate, securing a physical trade was seen as a vital lifeline. Vocational training offered young Jewish women a semblance of security against an unknown future -- a portable skill that could not be confiscated. Chaya Rakowsky's insistence that her daughter learn dressmaking would prove tragically prescient.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase tracking-widest opacity-50 mb-4">הקשר היסטורי</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                פולין שבין שתי מלחמות העולם התאפיינה בקשיים כלכליים חמורים לאוכלוסייה היהודית. הגבלות ממשלתיות, חרמות כלכליים אנטי-יהודיים ואפליה נרחבת הפכו את פרנסת הלחם למשימה שברירית יותר ויותר. משפחות יהודיות בערי תעשייה כמו בנדין וסוסנוביץ׳ סבלו מלחץ מיוחד כאשר הלאומנים הפולנים כיוונו לעסקים בבעלות יהודית.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                באווירה זו, רכישת מלאכת יד נתפסה כקרש הצלה חיוני. הכשרה מקצועית הציעה לנשים יהודיות צעירות מעין ביטחון מול עתיד לא ידוע -- מיומנות ניידת שאי אפשר להחרים. עמידתה של חיה רקובסקי על כך שבתה תלמד תפירה תוכח כנבואית באופן טרגי.
+                            </p>
+                        </div>
                     </div>
                     <div class="order-1 md:order-2 md:pl-12">
-                        <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">1931 — 1939</span>
-                        <h3 class="text-4xl mb-6">A Formative Loss</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            Tragedy struck early. In 1931, an epidemic swept the area, and her beloved father, Eli Boruch, died of typhus. To survive, her mother Chaya began laboring over custom-made shirts.
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            Knowing the precariousness of their situation, her mother sent a young Ida to travel 8km daily to Sosnowiec to learn dressmaking. "You should never need it, but you should have a profession in your hands," her mother warned. Ida graduated with honors just as rumors of war began to cross the border.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">1931 — 1939</span>
+                            <h3 class="text-4xl mb-6">A Formative Loss</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Tragedy struck early. On Rosh Chodesh Iyar, a Friday, in 1931, her beloved father Eli Boruch died. She was seven years old. At the funeral in Cheladz, they opened the casket and asked her to ask mechila (forgiveness) of her father. "I refused," she wrote. "I was so upset at my Father. Why did he leave us, when I loved him so much." Even during his final illness, she had sat at his bedside each evening and repeated her daily Bais Yaakov lesson to him. "This seemed to give him great pleasure."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                After his death, the ache never left. She once asked her mother: "Mom, why is it that all the children come with fathers and mothers, and I can't?" Her mother answered simply: "My dear child, G-d is right, and his judgement is right." Ida wrote: "The answer always rings in my mind forever!" To survive, her mother Chaya began laboring over custom-made shirts, but developed a weak heart. One night Ida ran alone through dark streets to fetch a doctor, racing past a huge guard dog that terrified her. Another time she ran in the darkness to bring Aunt Shaindele, her mother's devoted sister.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Aunt Shaindele became their lifeline, providing supper for the girls daily. Her husband Uncle Chemia and cousins Chaim Leib and Avrom Dovid embraced the fatherless family. After Seder each year, the sleeping sisters were carried home on their cousins' shoulders through the quiet streets.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                Knowing the precariousness of their situation, Chaya sent young Ida to travel 8km daily to Sosnowiec to learn dressmaking. "You should never need it, but you should have a profession in your hands," her mother warned. Ida later reflected: "It was probably a good preparation for my later years in concentration camps..." She graduated with honors, earning strong job prospects, but the rumors of war were already crossing the border.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold uppercase tracking-widest opacity-60 block mb-2">1931 — 1939</span>
+                            <h3 class="text-4xl mb-6">אובדן מעצב</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                הטרגדיה פקדה מוקדם. בראש חודש אייר, יום שישי, בשנת 1931, נפטר אביה האהוב אלי ברוך. היא היתה בת שבע. בהלוויה בצ׳לאדז׳, פתחו את הארון וביקשו ממנה לבקש מחילה מאביה. "סירבתי," כתבה. "כעסתי כל כך על אבי. למה עזב אותנו, כשאהבתי אותו כל כך." אפילו בזמן מחלתו האחרונה, ישבה ליד מיטתו כל ערב וחזרה בפניו על שיעור Bais Yaakov היומי שלה. "נראה שזה הסב לו הנאה רבה."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                אחרי מותו, הכאב לא עזב מעולם. פעם שאלה את אמה: "אמא, למה כל הילדים באים עם אבות ואמהות, ואני לא יכולה?" אמה ענתה בפשטות: "ילדתי היקרה, ה׳ צודק, ומשפטו צודק." אידה כתבה: "התשובה מהדהדת בנפשי לעד!" כדי לשרוד, החלה אמה חיה לעבוד בייצור חולצות בהזמנה אישית, אך פיתחה חולשת לב. לילה אחד רצה אידה לבדה ברחובות חשוכים להביא רופא, חולפת בריצה על פני כלב שמירה ענק שהפחיד אותה. פעם אחרת רצה בחושך להביא את דודה שיינדל, אחותה המסורה של אמה.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                דודה שיינדל הפכה לקרש ההצלה שלהן, ומספקת ארוחת ערב לבנות מדי יום. בעלה דוד חמיה ובני דודיהן חיים לייב ואברום דוד חיבקו את המשפחה חסרת האב. אחרי הסדר בכל שנה, האחיות הישנות הובלו הביתה על כתפי בני דודיהן ברחובות השקטים.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                מתוך ידיעת שבריריות מצבן, שלחה חיה את אידה הצעירה לנסוע 8 ק"מ מדי יום לסוסנוביץ׳ כדי ללמוד תפירה. "שלעולם לא תצטרכי לזה, אבל שיהיה לך מקצוע בידיים," הזהירה אמה. אידה הרהרה בדיעבד: "זו היתה כנראה הכנה טובה לשנותיי המאוחרות יותר במחנות הריכוז..." היא סיימה בהצטיינות ועם סיכויי תעסוקה טובים, אך שמועות המלחמה כבר חצו את הגבול.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="pre-2" aria-label="Add a photo to A Formative Loss">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-pre-2"></div>
@@ -234,24 +419,60 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
-                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">November 1939</span>
-                        <h3 class="text-4xl mb-6 text-red-50">The Flames of Bendein</h3>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            The vibrant city became a ghost town as German soldiers filled the streets. Watching from an attic window, Ida and her family saw great plumes of smoke rising from their magnificent "Great Shul." It was the moment they realized their entire world was ending. Forced from their home, the Jews of Bendein became the sole targets of the invaders.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">September 1939</span>
+                            <h3 class="text-4xl mb-6 text-red-50">The Flames of Bendein</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                "As soon as they arrived, it seemed they had a plan, because right away the first thing they did is march to our shul." The vibrant city became a ghost town overnight as German soldiers filled the streets. Ida's memory of the Great Shul was precise and reverent: "The Mizrach wall was the most beautiful, with the colored window in the center for the Ahron Kodesh which was exquisite. In the center was a bimah, headed with a crown like beams... all in gold. There were steps on all four sides... 12 columns all gold leading up to the ladies balcony."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                All of it was set ablaze. "People were trying to enter the flames in order to rescue the Sefer Torahs, in vain. They were shot. The spot became a huge heap of rubble." Watching from an attic window, Ida and her family saw the great plumes of smoke rising and knew their entire world was ending.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                What followed was daily terror. The Germans conducted "Oblaves" -- raids that would "invade a whole apartment building... grabbing all men... we never heard from them again." Obtaining food became a battle for survival; "Poles used to point 'this is a Jude', and out of the line he got." The family was eventually forced from their home at Potockiego 4, crowded into ever-smaller quarters as the noose of occupation tightened around the Jewish community.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">ספטמבר 1939</span>
+                            <h3 class="text-4xl mb-6 text-red-50">להבות בנדין</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                "ברגע שהגיעו, נראה שהיתה להם תוכנית, כי מיד הדבר הראשון שעשו היה לצעוד לבית הכנסת שלנו." העיר התוססת הפכה לעיר רפאים בן לילה כאשר חיילים גרמנים מילאו את הרחובות. זיכרונה של אידה מבית הכנסת הגדול היה מדויק ומלא יראת כבוד: "קיר המזרח היה היפה ביותר, עם החלון הצבעוני במרכז לארון הקודש שהיה נהדר. במרכז עמדה בימה, עטורה בקרניים דמויות כתר... הכל בזהב. היו מדרגות מארבעת הצדדים... 12 עמודים כולם זהב המובילים לעזרת הנשים."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                הכל הועלה באש. "אנשים ניסו להיכנס ללהבות כדי להציל את ספרי התורה, ללא הועיל. הם נורו. המקום הפך לערימת הריסות ענקית." מחלון עליית הגג, אידה ומשפחתה צפו בעמודי העשן הגדולים העולים, וידעו שכל עולמם הולך ונגמר.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                מה שבא אחר כך היה אימה יומיומית. הגרמנים ערכו "אובלאווס" -- פשיטות ש"פלשו לבניין דירות שלם... חוטפים את כל הגברים... מעולם לא שמענו מהם שוב." השגת מזון הפכה למאבק הישרדות; "פולנים נהגו להצביע 'זה יהודי', ומהתור הוא הוצא." המשפחה סולקה בסופו של דבר מביתה ברחוב פוטוצקיגו 4, ודוחקה לדירות הולכות וקטנות ככל שלולאת הכיבוש הידקה סביב הקהילה היהודית.
+                            </p>
+                        </div>
                     </div>
                     <div class="md:pl-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">World Timeline</h4>
-                        <p class="text-sm opacity-70 italic leading-relaxed">
-                            September 1, 1939: Germany invades Poland. By September 8, the SS arrived in Bedzin and systematically burned the Great Synagogue along with the surrounding Jewish homes, shooting those who tried to escape the flames.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">World Timeline</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                September 1, 1939: Germany invades Poland. By September 8, Wehrmacht forces had entered Bedzin. On September 9, 1939 -- on the very first day of the occupation of the city -- the SS set fire to the Great Synagogue of Bedzin and the surrounding Jewish quarter. Between 40 and 200 Jews were burned alive or shot as they tried to escape the flames. It was one of the earliest mass atrocities of the war.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                The Bedzin Judenrat (Jewish council) was soon established under German orders, forced to implement increasingly brutal decrees against its own community. Forced labor, confiscation of property, and restriction of movement became the daily reality for Bedzin's Jews, a suffocating prelude to the deportations that would follow.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">ציר הזמן העולמי</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                1 בספטמבר 1939: גרמניה פולשת לפולין. עד 8 בספטמבר, כוחות הוורמאכט נכנסו לבנדין. ב-9 בספטמבר 1939 -- ביום הראשון ממש של כיבוש העיר -- הצית הסס את בית הכנסת הגדול של בנדין ואת הרובע היהודי הסמוך. בין 40 ל-200 יהודים נשרפו חיים או נורו כשניסו להימלט מהלהבות. זו היתה אחת הזוועות ההמוניות המוקדמות ביותר במלחמה.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                היודנרט (המועצה היהודית) של בנדין הוקמה במהרה בפקודה גרמנית, ונאלצה ליישם גזירות אכזריות הולכות ומחמירות נגד קהילתה שלה. עבודת כפייה, החרמת רכוש והגבלת תנועה הפכו למציאות היומיומית של יהודי בנדין, פרוזדור מחניק לגירושים שיבואו.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-1" aria-label="Add a photo to The Flames of Bendein">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-1"></div>
@@ -262,27 +483,72 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Schmelt Camps</h4>
-                        <p class="text-sm opacity-70 italic leading-relaxed">
-                            Young Jews were funneled into a network of forced labor camps managed by Organization Schmelt, deeply integrated into the German war economy, producing textiles and munitions.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Schmelt Camps</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                Organization Schmelt, named after SS-Brigadefuhrer Albrecht Schmelt, operated a vast network of over 160 forced labor camps across Upper Silesia. Young Jews from the Zaglebie region -- Bedzin, Sosnowiec, and surrounding towns -- were systematically funneled into these camps, deeply integrated into the German war economy. Prisoners produced textiles, munitions, and other materials critical to the German military effort.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                Unlike the more widely known concentration camps, Schmelt camps operated with a veneer of "labor mobilization," making them less visible to history. For the young women trapped within them, the reality was forced labor, starvation rations, and total separation from their families.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">מחנות שמלט</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                ארגון שמלט, על שם סס-בריגדפיהרר אלברכט שמלט, הפעיל רשת עצומה של למעלה מ-160 מחנות עבודת כפייה ברחבי שלזיה העילית. יהודים צעירים מאזור זגלמביה -- בנדין, סוסנוביץ׳ והערים הסמוכות -- הוזרמו באופן שיטתי למחנות אלה, שהיו משולבים עמוקות בכלכלת המלחמה הגרמנית. האסירים ייצרו טקסטיל, תחמושת וחומרים אחרים חיוניים למאמץ המלחמתי הגרמני.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                שלא כמחנות הריכוז המוכרים יותר, מחנות שמלט פעלו במסווה של "גיוס לעבודה," מה שהפך אותם לפחות גלויים להיסטוריה. עבור הנשים הצעירות שנכלאו בהם, המציאות היתה עבודת כפייה, מנות רעב והפרדה מוחלטת ממשפחותיהן.
+                            </p>
+                        </div>
                     </div>
                     <div class="order-1 md:order-2 md:pl-12">
-                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">February 1941</span>
-                        <h3 class="text-4xl mb-6 text-red-50">Separation & Sagan</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            Shortly after her 17th birthday, Ida was "mercilessly torn away" from her family. At the orphanage holding center, her brave younger sister Rivkale managed to walk right beside her past the armed guards to deliver their mother's last message: "Take care, and G-d willing, we will see each other soon."
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            Sent to the *Sagan Tuch Fabrik*, she surrendered her belongings but dared to hide family photos. Staring at a bowl of watery soup she couldn't bring herself to eat, she met Masha Haida. They exchanged glances across the table, realized they were from the same town, and became best friends.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">February 1941</span>
+                            <h3 class="text-4xl mb-6 text-red-50">Separation & Sagan</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Shortly after her 17th birthday, the summons came. Ida had registered at the factory ROSMAN, trying desperately to stay home to care for her ailing mother. But when the order arrived to report, Ida and her mother went together to beg for clemency. "He pushed my dear Mother away. How dare he push my dear Mother. I was enraged." There was no mercy.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                She was taken to the Sherocinek, a Jewish orphanage that had been converted into a holding center, a new building slightly out of town. Her brave younger sister Rivkale climbed through neighboring fences to reach a window above where Ida was held, desperate for one last glimpse. On the day of the march -- rows of four, heavily guarded -- Rivkale managed to walk right beside her past the armed guards to deliver their mother's last message: "Take care, and G-d willing, we will see each other soon." At the station, a German guard spat: "Those dirty bunch."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                At the Sagan Tuch Fabrik, they were ordered to surrender all belongings. Ida gave up her only treasure -- "a beautiful gold ring with a beautiful purple stone, which I received for my birthday from my dear friend." But there was one thing she would not relinquish: "There was one thing I was not ready to surrender" -- her family photographs, which she hid and guarded through everything that followed.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Staring at a bowl of watery soup she could not bring herself to eat, she met Masha Haida across the table. "We exchanged glances... same town, same upbringing, and from that moment we became best friends." Their first Pessach in Sagan was marked by deprivation: "I remember exchanging my bread for a 'pel' potato. There was nothing else to exchange."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                From attic windows, the girls watched Hitler Youth parading in the streets below. "I, we felt like birds locked in a cage. Yet we still had the hope, one day soon, we will be free." For a time, brief letters arrived from home -- fragments of connection to the world they had been torn from. Then all communication was cut off, and silence took its place.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">פברואר 1941</span>
+                            <h3 class="text-4xl mb-6 text-red-50">פרידה וזאגאן</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                זמן קצר אחרי יום הולדתה ה-17, הגיע צו הגיוס. אידה נרשמה במפעל רוסמאן, ניסתה נואשות להישאר בבית לטפל באמה החולה. אך כשהגיעה הפקודה להתייצב, אידה ואמה הלכו יחד להתחנן לרחמים. "הוא דחף את אמי היקרה. איך העז לדחוף את אמי היקרה. הייתי זועמת." לא היה רחמים.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                היא נלקחה לשרוצ׳ינק, בית יתומים יהודי שהוסב למרכז מעצר, בניין חדש מעט מחוץ לעיר. אחותה הצעירה האמיצה ריבקל׳ה טיפסה דרך גדרות שכנות כדי להגיע לחלון מעל המקום שבו הוחזקה אידה, נואשת להצצה אחרונה. ביום הצעידה -- שורות של ארבע, תחת שמירה כבדה -- ריבקל׳ה הצליחה ללכת ממש לצדה חולפת על פני השומרים החמושים כדי למסור את מסר אמם האחרון: "שמרי על עצמך, ואם ירצה ה׳, ניפגש בקרוב." בתחנת הרכבת, ירק שומר גרמני: "החבורה המלוכלכת הזו."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                במפעל האריגים בזאגאן, הן צוו למסור את כל חפציהן. אידה מסרה את אוצרה היחיד -- "טבעת זהב יפהפייה עם אבן סגולה מהממת, שקיבלתי ליום הולדתי מחברתי היקרה." אך דבר אחד היא סירבה למסור: "היה דבר אחד שלא הייתי מוכנה לוותר עליו" -- תמונות משפחתה, שהחביאה ושמרה דרך כל מה שבא.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                בוהה בקערת מרק מימי שלא יכלה להכריח את עצמה לאכול, פגשה את מאשה חיידא מעבר לשולחן. "החלפנו מבטים... אותה עיר, אותו גידול, ומאותו רגע הפכנו לחברות הכי טובות." הפסח הראשון שלהן בזאגאן התאפיין בחסך: "אני זוכרת שהחלפתי את הלחם שלי בתפוח אדמה אחד. לא היה שום דבר אחר להחלפה."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                מחלונות עליית הגג, הבנות צפו בנוער ההיטלראי צועד ברחובות למטה. "אני, אנחנו הרגשנו כמו ציפורים כלואות בכלוב. ובכל זאת עדיין היתה לנו התקווה, שבקרוב, נהיה חופשיות." לזמן מה, הגיעו מכתבים קצרים מהבית -- רסיסי קשר לעולם שנקרעו ממנו. ואז כל התקשורת נותקה, והשתיקה תפסה את מקומה.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-2" aria-label="Add a photo to Separation and Sagan">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-2"></div>
@@ -293,27 +559,66 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
-                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">1941 — 1944</span>
-                        <h3 class="text-4xl mb-6 text-red-50">Defiance in Greenberg</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            Ida was transferred to *Greenberg Shlesien*. Assigned to the "Ausneherai," she did "invisible mending" on fabrics. Her German instructor walked in on the first day, looked at the girls, and asked in shock, "Where are your horns?" having been taught that Jews were literal demons.
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            Despite the terror, acts of spiritual defiance remained. Around Chanukah, Ida and two friends from Bais Yaakov dared to ask a guard to light a candle. Miraculously permitted, Ida, known for her beautiful voice, lit the light and sang "Maoz Tzur." In the middle of total darkness, they injected a ray of hope.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">1941 — 1944</span>
+                            <h3 class="text-4xl mb-6 text-red-50">Defiance in Greenberg</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Ida was transferred to Greenberg Shlesien, where they were met by "a Lagerfurer, a man with a harsh looking face, and two women middle aged, who appeared to have a military discipline." The factory was divided into the "Vaberai" (weaving) and "Shpinerai" (spinning). Ida was assigned to the Shpinerai, working enormous machines. Her German instructor walked in on the first day, looked at the girls, and asked in shock, "Where are your horns?" -- having been taught that Jews were literal demons.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Despite the terror, acts of spiritual defiance burned bright. Around Chanukah, Ida and two friends from Bais Yaakov -- Malka Pfefer and Estusia Krell, who had been in Bnos when Ida was still in Basia -- dared to ask a guard to light a candle. Miraculously permitted, Ida sang both "Hanarot" and "Maoz Tzur" before the small flame. "I was in every performance singing solo," she recalled with quiet pride. Men from the neighboring camp even came to witness the lighting. In the middle of total darkness, they injected a ray of hope.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                One day, a transport of Hungarian girls arrived. "These girls were so well dressed, looked so good, soon to become like us." The contrast was devastating -- a reminder of how far they themselves had fallen from normal life.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                Then came a dream that haunted her: "I was standing on an apel... thousands of people around me... all of a sudden, all of the people fell into the ground and I alone was standing there. I woke up terribly frightened." She could not know then how prophetic this vision would prove.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">1941 — 1944</span>
+                            <h3 class="text-4xl mb-6 text-red-50">מרי בגרינברג</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                אידה הועברה לגרינברג שלזיה, שם קיבלו את פניהן "לאגרפירר, איש עם פנים קשות, ושתי נשים בגיל העמידה, שנראו כבעלות משמעת צבאית." המפעל חולק ל"וואבעראי" (אריגה) ו"שפינעראי" (טוויה). אידה שובצה לשפינעראי, עובדת על מכונות ענקיות. המדריך הגרמני שלה נכנס ביום הראשון, הביט בבנות, ושאל בהלם, "איפה הקרניים שלכן?" -- לאחר שלימדו אותו שיהודים הם שדים ממש.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                למרות האימה, מעשי מרי רוחני בערו בעוז. סביב חנוכה, אידה ושתי חברות מ-Bais Yaakov -- מלכה פפר ואסתוסיה קרל, שהיו בבנות כשאידה היתה עדיין בבסיה -- העזו לבקש משומר להדליק נר. באורח נס אושר להן, ואידה שרה גם "הנרות הללו" וגם "מעוז צור" מול הלהבה הקטנה. "הייתי בכל הופעה שרה סולו," נזכרה בגאווה שקטה. גברים מהמחנה הסמוך אף באו לצפות בהדלקה. בלב חשכה מוחלטת, הזריקו קרן של תקווה.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                יום אחד, הגיע משלוח של בנות הונגריות. "הבנות האלה היו כל כך מלובשות היטב, נראו כל כך טוב, בקרוב יהפכו להיות כמונו." הניגוד היה מרסק -- תזכורת כמה רחוק הן עצמן נפלו מחיים נורמליים.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                ואז בא חלום שרדף אותה: "עמדתי על אפל... אלפי אנשים סביבי... ופתאום, כל האנשים נפלו לתוך האדמה ואני לבד עמדתי שם. התעוררתי מבוהלת מאוד." היא לא יכלה לדעת אז עד כמה נבואי יתברר החזון הזה.
+                            </p>
+                        </div>
                     </div>
                     <div class="md:pl-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">Spiritual Resistance</h4>
-                        <p class="text-sm opacity-70 italic leading-relaxed">
-                            Maintaining religious observance in the camps was strictly forbidden and punishable by death. Acts like singing prayers or lighting makeshift candles were profound forms of spiritual resistance to maintain humanity.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">Spiritual Resistance</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                Maintaining religious observance in the camps was strictly forbidden and punishable by death. Acts like singing prayers, lighting makeshift candles, or marking the Jewish calendar were profound forms of spiritual resistance -- a refusal to let the oppressors destroy not just bodies but souls.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                Music played a unique role in this resistance. Singing familiar melodies -- Shabbat zemirot, holiday songs, lullabies from home -- served as both defiance and survival. For Ida, whose voice had been her gift since childhood, song became a way of keeping faith alive in a world designed to extinguish it.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">התנגדות רוחנית</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                שמירת מצוות במחנות היתה אסורה בהחלט ועונשה מוות. מעשים כמו שירת תפילות, הדלקת נרות מאולתרים, או ציון לוח השנה היהודי היו צורות עמוקות של התנגדות רוחנית -- סירוב לאפשר למדכאים להשמיד לא רק גופות אלא גם נשמות.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                למוזיקה היה תפקיד ייחודי בהתנגדות זו. שירת מנגינות מוכרות -- זמירות שבת, שירי חג, שירי ערש מהבית -- שימשו הן כמרי והן ככלי הישרדות. עבור אידה, שקולה היה מתנתה מילדות, השירה הפכה לדרך לשמור על האמונה בעולם שנועד לכבות אותה.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-3" aria-label="Add a photo to Defiance in Greenberg">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-3"></div>
@@ -324,27 +629,66 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">Dehumanization</h4>
-                        <p class="text-sm opacity-70 italic leading-relaxed">
-                            "Selections" were designed not only to weed out the weak for extermination but to strip prisoners of all dignity. Those showing signs of illness, like Tuberculosis, disappeared forever.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">Dehumanization</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                "Selections" were designed not only to weed out the weak for extermination but to strip prisoners of all dignity and humanity. Those showing signs of illness -- particularly Tuberculosis, rampant in the cramped and filthy conditions -- disappeared forever. Young women deemed physically attractive were separated for exploitation by German officers.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                The denial of medical care was itself a form of slow murder. Prisoners with failing eyesight, injuries, or chronic illness received no treatment, making them unable to meet their labor quotas and thus vulnerable to the next selection. Survival often hinged on small acts of intervention -- a sympathetic guard, a reassignment, a moment of mercy in a merciless system.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">דה-הומניזציה</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                "הסלקציות" נועדו לא רק לסנן את החלשים להשמדה אלא לשלול מהאסירים כל כבוד ואנושיות. אלה שהראו סימני מחלה -- במיוחד שחפת, שהשתוללה בתנאים הצפופים והמלוכלכים -- נעלמו לנצח. נשים צעירות שנחשבו אטרקטיביות פיזית הופרדו לניצול על ידי קצינים גרמנים.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                שלילת הטיפול הרפואי היתה כשלעצמה צורה של רצח איטי. אסירים עם ראייה מתדרדרת, פציעות או מחלות כרוניות לא קיבלו טיפול, מה שהפך אותם ללא מסוגלים לעמוד במכסות העבודה ובכך חשופים לסלקציה הבאה. הישרדות תלויה היתה לעתים קרובות במעשים קטנים של התערבות -- שומר אוהד, שיבוץ מחדש, רגע של רחמים במערכת חסרת רחמים.
+                            </p>
+                        </div>
                     </div>
                     <div class="order-1 md:order-2 md:pl-12">
-                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">1944</span>
-                        <h3 class="text-4xl mb-6 text-red-50">The Darkest Days</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            The Germans began "experiments" and brutal inspections. Ida vividly remembered the terror of being forced to walk completely naked down a hall toward three seated SS men. "I tried to cover myself with my hands, it was 'ferboten' (forbidden)." 
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            Girls began deteriorating. Her friend Estusia contracted TB and disappeared. When Ida's eyesight failed at the massive spinning machines, she was denied glasses. But in an open miracle, a sympathetic guard transferred her to the kitchen, likely saving her from starving before the final march.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">1944</span>
+                            <h3 class="text-4xl mb-6 text-red-50">The Darkest Days</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                The Germans began "experiments" and brutal inspections. Ida vividly remembered the terror of the naked selection: "3 huge Germans sitting apart... We were to walk in completely naked, hands down... I tried to cover myself with my hands, it was 'ferboten'... The girls that still had a good physique... they did not come back. They were sent away to the German officers." Decades later, the image remained seared in her memory: "I can still see those 3 sitting there in front of me. It was terrifying."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Girls began deteriorating. Estusia Chzhanoska -- "our landlord's daughter from home, a beautiful young girl" -- contracted Tuberculosis and was sent away, never to return. When Ida's own eyesight began failing at the massive spinning machines, she went to the eye doctor, who refused to prescribe glasses despite her obvious need.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Then came what Ida called an open miracle. "The YugerFreurin... suggested that I should be given the job in the kitchen, since I did not get glasses and could not see. There was a rumor that I probably bribed them. I regard this as an open miracle." The kitchen assignment likely saved her life, giving her access to slightly more food at the moment she needed it most.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                Through it all, Ida and her friends clung to hope with a ferocity that defied reason. They dreamed of the simplest pleasures: "We envisioned the first meal at home would be enough plain potatoes with water." And they held fast to belief: "When we return home, my family will be waiting for me!" It was a faith that sustained them through the darkness, even as the truth grew harder to deny.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">1944</span>
+                            <h3 class="text-4xl mb-6 text-red-50">הימים האפלים ביותר</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                הגרמנים החלו ב"ניסויים" ובבדיקות אכזריות. אידה זכרה בבהירות את אימת הסלקציה העירומה: "3 גרמנים ענקיים יושבים בריחוק... היינו צריכות ללכת עירומות לחלוטין, ידיים למטה... ניסיתי לכסות את עצמי בידיים, זה היה 'ferboten'... הבנות שעוד היתה להן מבנה גוף טוב... הן לא חזרו. הן נשלחו לקצינים הגרמנים." עשרות שנים מאוחר יותר, הדמות נותרה צרובה בזיכרונה: "אני עדיין יכולה לראות את שלושתם יושבים שם מולי. זה היה מפחיד."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                בנות החלו להידרדר. אסתוסיה צ׳ז׳אנוסקה -- "בת בעל הבית שלנו מהבית, נערה צעירה ויפה" -- חלתה בשחפת ונשלחה, ולא שבה לעולם. כשראייתה של אידה עצמה החלה להתדרדר ליד מכונות הטוויה הענקיות, הלכה לרופא עיניים, שסירב לרשום לה משקפיים למרות הצורך הברור שלה.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                ואז בא מה שאידה כינתה נס גלוי. "היוגרפרוירין... הציעה שיינתן לי תפקיד במטבח, מכיוון שלא קיבלתי משקפיים ולא יכולתי לראות. היתה שמועה שכנראה שיחדתי אותם. אני רואה בכך נס גלוי." השיבוץ למטבח כנראה הציל את חייה, ונתן לה גישה לקצת יותר אוכל ברגע שהיתה צריכה לכך ביותר.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                דרך כל זאת, אידה וחברותיה נאחזו בתקווה בעוצמה שהכחישה כל היגיון. הן חלמו על ההנאות הפשוטות ביותר: "דמיינו שהארוחה הראשונה בבית תהיה מספיק תפוחי אדמה פשוטים עם מים." והן נאחזו באמונה: "כשנחזור הביתה, משפחתי תחכה לי!" זו היתה אמונה שהחזיקה אותן דרך החשכה, גם כשהאמת הפכה קשה יותר להכחשה.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-4" aria-label="Add a photo to The Darkest Days">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-4"></div>
@@ -355,27 +699,84 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
-                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">January — April 1945</span>
-                        <h3 class="text-4xl mb-6 text-red-50">The Death March</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            In the freezing winter, they were ordered to march. Walking 25-30km daily, girls who stopped were shot in the woods. When Ida's feet swelled so badly her shoes fell apart, she bound them in sackcloth and string.
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            One morning, suffering from severe dysentery in a warehouse in the rain, a wise friend commanded her to urinate in a can and drink it. Shocked, but desperate to live, she obeyed—and the illness passed. It was a brutal, miraculous survival.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">January — May 1945</span>
+                            <h3 class="text-4xl mb-6 text-red-50">The Death March</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                In early January 1945, in the "cold merciless winter," they were ordered to march. Walking 25-30km daily, the column stretched endlessly through frozen landscapes. "Some girls found something like a potato or a piece of radish on the road. They were shot on the spot." By the third day, Ida developed a terrible pain in her foot and could not keep up. "The soldier with the rifle came over and pointed the rifle at me, ready to shoot. A girl that I knew very little, jumped out of the line, picked me up on both sides of my arms, and said 'Sie Ken Laufen, sie can loufen' (She can walk, she can walk)." The soldier moved on. "I was granted an open miracle."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Her shoes fell apart from the relentless march, and she bound her feet in sackcloth and string. Mornings brought the worst sight of all: "Can anyone imagine the sight of waking up in the field in winter, and your comrades beside you just did not wake up?" -- bodies half-covered in snow, frozen where they lay. One moment haunted her forever: "The time when a girl right behind me was pulled out, she looked into my eyes so pleadingly."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                After weeks on the road, they arrived at Helnbrecht, a sub-camp of Flossenburg, where they were held for three weeks. The conditions were savage. Forced to wash naked in the snow: "Snow over a foot high, very very cold, naked, wash in cold water... I hardly made it back to the door when I passed out." During this time, she and her dear friend made a sacred pact: "I had my little siddur with me always... we both made an oath, that whoever of us will survive, will make a memorial stone for a remembrance."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                The march resumed, this time through the inferno of a collapsing Reich. Through Dresden: "The streets were full of dust like a desert... the city is on fire, everything was burning... quickly go across because the bridge is mined to blow up soon." Through Chemnitz: "A huge industrial city... no living soul to be seen... air alarm, planes flying over us." On the road, they encountered men marching in the opposite direction -- "striped outfits like pajamas" -- the ghostly columns of other camps being evacuated.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                One morning, suffering from severe dysentery in a warehouse in the rain, a wise friend saved her life with brutal simplicity: "You release your urine and drink it. This is the only thing you can do in this situation!" Shocked, but desperate to live, Ida obeyed -- and the illness passed. A jeep arrived and ordered their column to turn around; they had wandered close to Allied forces.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                As the final days closed in, their group leader Mina delivered a chilling announcement: "It is now 15 minutes to 12:00." The meaning was clear -- the end was near, one way or another. "We did not panic. It seemed we were at the end of our journey, one way or the other."
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">ינואר — מאי 1945</span>
+                            <h3 class="text-4xl mb-6 text-red-50">צעדת המוות</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                בתחילת ינואר 1945, ב"חורף קר וחסר רחמים," הן צוו לצעוד. הולכות 25-30 ק"מ ביום, הטור נמתח בלי סוף דרך נופים קפואים. "כמה בנות מצאו משהו כמו תפוח אדמה או חתיכת צנון על הדרך. הן נורו במקום." ביום השלישי, אידה פיתחה כאב נורא ברגל ולא יכלה לעמוד בקצב. "החייל עם הרובה ניגש וכיוון את הרובה אלי, מוכן לירות. בחורה שבקושי הכרתי, קפצה מהשורה, הרימה אותי משני צידי הזרועות, ואמרה 'Sie Ken Laufen, sie can loufen' (היא יכולה ללכת, היא יכולה ללכת)." החייל המשיך הלאה. "זכיתי בנס גלוי."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                נעליה התפרקו מהצעידה הבלתי פוסקת, והיא כרכה את רגליה בשק ובחוט. הבקרים הביאו את המראה הגרוע מכל: "האם מישהו יכול לדמיין את המראה של להתעורר בשדה בחורף, וחברותיך לצדך פשוט לא התעוררו?" -- גופות מכוסות למחצה בשלג, קפואות במקום שכבו. רגע אחד רדף אותה לנצח: "הפעם שבחורה ממש מאחורי נמשכה החוצה, היא הביטה בעיניי בתחינה כזו."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                אחרי שבועות על הדרך, הגיעו להלנברכט, מחנה משנה של פלוסנבורג, שם הוחזקו שלושה שבועות. התנאים היו אכזריים. נאלצו להתרחץ עירומות בשלג: "שלג בגובה יותר מרגל, קור נורא, עירומות, להתרחץ במים קרים... בקושי הגעתי חזרה לדלת כשהתעלפתי." בתקופה זו, היא וחברתה היקרה כרתו ברית קדושה: "היה לי תמיד הסידור הקטן שלי... שתינו נשבענו שבועה, שמי מאיתנו שתשרוד, תקים מצבת זיכרון."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                הצעידה חודשה, הפעם דרך הגיהנום של רייך קורס. דרך דרזדן: "הרחובות היו מלאי אבק כמו מדבר... העיר בוערת, הכל בער... לחצות מהר כי הגשר ממולכד להתפוצץ בקרוב." דרך כמניץ: "עיר תעשייתית ענקית... אין נפש חיה למראה... אזעקת אוויר, מטוסים טסים מעלינו." על הדרך, פגשו גברים צועדים בכיוון הנגדי -- "בגדים מפוספסים כמו פיג׳מות" -- טורי הרפאים של מחנות אחרים שפונו.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                בוקר אחד, סובלת מדיזנטריה קשה במחסן בגשם, חברה חכמה הצילה את חייה בפשטות אכזרית: "שחררי את השתן ושתי אותו. זה הדבר היחיד שאת יכולה לעשות במצב הזה!" המומה, אך נואשת לחיות, אידה צייתה -- והמחלה חלפה. ג׳יפ הגיע ופקד על הטור שלהן לחזור; הן נדדו קרוב לכוחות בעלות הברית.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                כשהימים האחרונים התקרבו, מנהיגת הקבוצה מינה מסרה הודעה מצמררת: "עכשיו 15 דקות לפני 12:00." המשמעות היתה ברורה -- הסוף קרוב, כך או כך. "לא נכנסנו לפאניקה. נראה שהגענו לסוף המסע, כך או כך."
+                            </p>
+                        </div>
                     </div>
                     <div class="md:pl-12 glass-card p-8 rounded-lg border-l-4 border-red-800">
-                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Final Evacuations</h4>
-                        <p class="text-sm opacity-70 italic leading-relaxed">
-                            As Soviet forces closed in from the East, the SS forced hundreds of thousands of prisoners on foot toward the interior of the Reich. Exposure, starvation, and summary executions killed tens of thousands.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Final Evacuations</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                Between January and May 1945, as Allied forces closed in from both East and West, the SS forced hundreds of thousands of concentration camp prisoners on foot toward the interior of the collapsing Reich. These "death marches" killed an estimated 250,000 to 375,000 people through exposure, starvation, and summary execution. Guards had standing orders to shoot anyone who fell behind.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                Helnbrecht (Helmbrechts) was a women's sub-camp of the Flossenburg concentration camp system in Upper Franconia, Bavaria. In April 1945, its prisoners were forced on one of the war's final death marches, a 225-mile trek that lasted over three weeks and killed nearly half the prisoners.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                The bombing of Dresden on February 13-15, 1945, by British and American air forces created a firestorm that destroyed the city center and killed an estimated 25,000 people. Ida and her column marched through its smoldering ruins in the weeks that followed, witnessing firsthand the apocalyptic landscape of a city consumed by fire -- a mirror of what had been done to her own community years before.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">הפינויים האחרונים</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                בין ינואר למאי 1945, כאשר כוחות בעלות הברית התקרבו ממזרח וממערב, כפה הסס על מאות אלפי אסירי מחנות ריכוז לצעוד ברגל לעבר פנים הרייך הקורס. "צעדות מוות" אלה הרגו לפי ההערכות בין 250,000 ל-375,000 אנשים מחשיפה, רעב והוצאה להורג מיידית. לשומרים היו פקודות קבועות לירות בכל מי שנשאר מאחור.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                הלנברכט (Helmbrechts) היה מחנה משנה לנשים במערכת מחנה הריכוז פלוסנבורג בפרנקוניה העילית, בוואריה. באפריל 1945, אסירותיו נאלצו לצאת לאחת מצעדות המוות האחרונות של המלחמה, מסע רגלי של 360 ק"מ שנמשך למעלה משלושה שבועות והרג כמעט מחצית מהאסירות.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                הפצצת דרזדן ב-13-15 בפברואר 1945, על ידי חילות האוויר הבריטי והאמריקני, יצרה סופת אש שהשמידה את מרכז העיר והרגה לפי ההערכות 25,000 איש. אידה וטור הצועדות שלה חצו את חורבותיה המעשנות בשבועות שלאחר מכן, ועדו במו עיניהן לנוף אפוקליפטי של עיר שנבלעה באש -- מראה מקבילה למה שנעשה לקהילתה שלה שנים קודם לכן.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-5" aria-label="Add a photo to The Death March">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-5"></div>
@@ -386,27 +787,66 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Collapse</h4>
-                        <p class="text-sm opacity-70 italic leading-relaxed">
-                            By May 1945, the Nazi command structure was disintegrating. Guards often abandoned their posts and prisoners as Allied forces surrounded them.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">The Collapse</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                By May 1945, the Nazi command structure was disintegrating. Guards often abandoned their posts and prisoners as Allied forces surrounded them from all sides. On the Czech-German border, entire columns of prisoners were left in forests and on mountain roads as their captors fled to avoid capture.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                The liberation of Czechoslovakia came in stages through late April and early May 1945. Czech civilians in border towns and villages were among the first to encounter the skeletal survivors emerging from the forests. Many communities, horrified by what they witnessed, converted schools, town halls, and private homes into makeshift hospitals and shelters. The town of Prachatice, in southern Bohemia near the Bavarian border, was one such place where local people mobilized to save the survivors who stumbled into their midst.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-red-800 tracking-widest mb-4">הקריסה</h4>
+                            <p class="text-sm opacity-70 italic leading-relaxed mb-3">
+                                עד מאי 1945, מבנה הפיקוד הנאצי היה בתהליך התפוררות. שומרים נטשו לעתים קרובות את עמדותיהם ואת האסירים כאשר כוחות בעלות הברית הקיפו אותם מכל הצדדים. על הגבול הצ׳כי-גרמני, טורים שלמים של אסירים ננטשו ביערות ובדרכי הרים כאשר שוביהם ברחו כדי להימנע משבי.
+                            </p>
+                            <p class="text-sm opacity-70 italic leading-relaxed">
+                                שחרור צ׳כוסלובקיה בא בשלבים בסוף אפריל ותחילת מאי 1945. אזרחים צ׳כים בעיירות גבול וכפרים היו בין הראשונים לפגוש את השרידים השלדיים שצצו מהיערות. קהילות רבות, מזועזעות ממה שראו, הסבו בתי ספר, בנייני עירייה ובתים פרטיים לבתי חולים ומקלטים מאולתרים. העיירה פראכטיצה, בדרום בוהמיה ליד הגבול הבוואארי, היתה מקום כזה שבו התגייס הציבור המקומי להצלת הניצולים שמעדו לתוכם.
+                            </p>
+                        </div>
                     </div>
                     <div class="order-1 md:order-2 md:pl-12">
-                        <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">May 5-6, 1945</span>
-                        <h3 class="text-4xl mb-6 text-red-50">Silence in the Forest</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            Exhausted, pouring rain, the small remaining group was ordered to sit in a pitch-black forest on a mountain. Ida heard the guards calling to each other—"Frans, Fritz"—and saw flashlights moving away. Then, total silence.
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            Waking the next morning, the guards were gone. "I am a free human being. I am free!" she wrote. They walked down to the Czech village of Prachatice. The villagers, horrified at the sight of these walking skeletons, cried "Nemecka Cultura" (German Culture) and immediately turned a school into a hospital to save them.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">May 5-6, 1945</span>
+                            <h3 class="text-4xl mb-6 text-red-50">Silence in the Forest</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Exhausted, drenched by pouring rain, the small remaining group was ordered to sit in a pitch-black forest on a mountain at the Czech-German border. Ida heard the guards calling to each other -- "Frans, Fritz" -- and saw flashlights moving away into the darkness. Then, total silence. "I raised my eyes to heaven, with great thanks to Hashem."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Waking the next morning, the guards were gone. "I am a free human being. I am free!" she wrote. But freedom brought its own terror -- they were alone on a mountain with no idea where to go. "We looked up to the sky through the trees to see if there would be any smoke... We try to listen. Maybe a dog would bark. After walking for quite a while, we did hear a sound of a dog. We found our way down from this mountain."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                They emerged near the Czech village of Prachatice. The villagers, horrified at the sight of these walking skeletons, cried "Nemecka Cultura!" (German Culture!) and immediately converted a school into a hospital to save them. Recovery was agonizing: "I could not hold water in my stomach. We looked like skeletons. We could not tolerate any food anymore." Their bodies, starved for so long, rebelled against nourishment.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                They stayed in Prachatice for more than a month, slowly regaining enough strength to contemplate the journey ahead. Ida never forgot their kindness: "I will forever remember, and be forever grateful to those people in Prachatice, and will always keep praising them, wherever I go in the world."
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-red-700 uppercase tracking-widest block mb-2">5-6 במאי 1945</span>
+                            <h3 class="text-4xl mb-6 text-red-50">שתיקה ביער</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                מותשות, ספוגות מגשם שוטף, הקבוצה הקטנה שנותרה צוותה לשבת ביער חשוך כעטיה על הר בגבול הצ׳כי-גרמני. אידה שמעה את השומרים קוראים זה לזה -- "פרנץ, פריץ" -- וראתה אורות פנסים נעים הרחק אל תוך החשיכה. ואז, שתיקה מוחלטת. "נשאתי עיניי לשמיים, בהודיה רבה לה׳."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                כשהתעוררה בבוקר שלאחר מכן, השומרים נעלמו. "אני בן אדם חופשי. אני חופשייה!" כתבה. אך החירות הביאה עמה אימה משלה -- הן היו לבדן על הר בלי מושג לאן ללכת. "הבטנו לשמיים דרך העצים לראות אם יהיה עשן כלשהו... ניסינו להקשיב. אולי כלב ינבח. אחרי הליכה ארוכה למדי, אכן שמענו קול של כלב. מצאנו את דרכנו מהר הזה."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                הן צצו ליד הכפר הצ׳כי פראכטיצה. תושבי הכפר, מזועזעים ממראה השלדים המהלכים, קראו "Nemecka Cultura!" (תרבות גרמנית!) ומיד הסבו בית ספר לבית חולים כדי להציל אותן. ההחלמה היתה מייסרת: "לא יכולתי להחזיק מים בבטן. נראינו כמו שלדים. לא יכולנו לסבול שום אוכל יותר." גופותיהן, שהורעבו כל כך הרבה זמן, מרדו בתזונה.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                הן שהו בפראכטיצה למעלה מחודש, אוספות לאט מספיק כוחות כדי לחשוב על המסע שלפניהן. אידה לא שכחה מעולם את טוב ליבם: "אזכור לנצח, ואהיה אסירת תודה לנצח לאנשים של פראכטיצה, ותמיד אמשיך לשבח אותם, בכל מקום בעולם שאלך."
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="war-6" aria-label="Add a photo to Liberation">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-war-6"></div>
@@ -417,27 +857,66 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
-                        <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">July 1945</span>
-                        <h3 class="text-4xl mb-6 text-slate-800">The Empty Home</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            After four years of torture, Ida made the journey back to Bendein. But the homecoming was a nightmare. The streets felt dull; the windows where her sisters used to sit were empty. 
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            Standing in front of her home's door, the pressure became too great. "The dramatic force of my indescribable pain broke... I realize that I am all alone, like a stone, and with a stone in my heart." The mother she had promised to return to was gone.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">July 1945</span>
+                            <h3 class="text-4xl mb-6 text-slate-800">The Empty Home</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                After four years of torture, Ida boarded a train back to Bendein. The journey itself became a meditation on loss. "Nothing. Only the sound of locomotive wheels can be heard... We are getting closer and closer to my town of birth." With every passing mile, the dread deepened: "The rhythm of my heart is slowing down and a lot of different thoughts are going through my mind." She wrestled with rage and grief: "Should I seek revenge? I don't know. There is a big battle in my mind."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                The homecoming was a nightmare. "The streets were crying with me... Windows, now empty, were usually occupied by my dear sisters." The familiar streets had become a graveyard of memory. "My first steps I directed towards my home... I was walking through the street feeling my legs were not my own."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Standing before her home's door, she imagined her mother's final words, words she never heard: "Dear child, where are you, so far away from me that you don't hear my last calling? I would like to see you one more time before my premature departure." The mother she had promised to return to was gone. Her sisters Dina and Rivkale were gone. Everyone was gone.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                "From this moment on I realize that I am all alone, like a stone, and with a stone in my heart." The pressure of the indescribable pain finally broke through. And then came the question that would define the rest of her life: "I am standing at the crossroad... For whom should I live?"
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">יולי 1945</span>
+                            <h3 class="text-4xl mb-6 text-slate-800">הבית הריק</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                אחרי ארבע שנות עינויים, עלתה אידה על רכבת חזרה לבנדין. המסע עצמו הפך להרהור על אובדן. "שום דבר. רק קול גלגלי הקטר נשמע... אנחנו מתקרבים יותר ויותר לעיר מולדתי." עם כל קילומטר שחלף, החרדה העמיקה: "קצב ליבי מאט ומחשבות רבות ושונות עוברות בראשי." היא נאבקה עם זעם ואבל: "האם עלי לנקום? אינני יודעת. יש מלחמה גדולה בראשי."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                החזרה הביתה היתה סיוט. "הרחובות בכו איתי... חלונות, ריקים עכשיו, שבדרך כלל היו מאוישים באחיותיי היקרות." הרחובות המוכרים הפכו לבית קברות של זיכרונות. "צעדיי הראשונים כיוונתי לביתי... הלכתי ברחוב מרגישה שרגליי אינן שלי."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                עומדת מול דלת ביתה, דמיינה את מילותיה האחרונות של אמה, מילים שמעולם לא שמעה: "ילדתי היקרה, איפה את, כל כך רחוקה ממני שאת לא שומעת את קריאתי האחרונה? הייתי רוצה לראות אותך פעם אחת אחרונה לפני עזיבתי המוקדמת." האם שהבטיחה לחזור אליה נעלמה. אחיותיה דינה וריבקל׳ה נעלמו. כולם נעלמו.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                "מרגע זה ואילך אני מבינה שאני לגמרי לבד, כמו אבן, ועם אבן בליבי." לחץ הכאב שאין לתאר פרץ סוף סוף החוצה. ואז באה השאלה שתגדיר את שאר חייה: "אני עומדת בצומת הדרכים... בשביל מי עלי לחיות?"
+                            </p>
+                        </div>
                     </div>
                     <div class="md:pl-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">The Void</h4>
-                        <p class="text-sm opacity-80 italic leading-relaxed">
-                            For many survivors, liberation did not bring immediate joy, but rather the devastating realization of total annihilation. Returning to Poland often meant facing hostile locals and the undeniable truth that their families had been murdered.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">The She'erit Hapletah</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                The She'erit Hapletah -- the "surviving remnant" -- was the term used by the survivors themselves, drawn from the Book of Chronicles. For many, liberation did not bring immediate joy but rather the devastating realization of total annihilation. Those who returned to Poland found their homes occupied by strangers, their families murdered, their communities erased.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                Returning survivors often encountered hostility from local populations who had seized Jewish property. Post-war pogroms, including the infamous Kielce pogrom of July 1946, made it clear that Poland held no future for its surviving Jews. The vast majority of those who returned quickly left again, joining the great westward migration toward the Displaced Persons camps of Germany, Austria, and Italy.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">שארית הפליטה</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                שארית הפליטה -- המונח שהשתמשו בו הניצולים עצמם, לקוח מספר דברי הימים. עבור רבים, השחרור לא הביא שמחה מיידית אלא את ההכרה המרסקת בהשמדה מוחלטת. אלה שחזרו לפולין מצאו את בתיהם תפוסים על ידי זרים, משפחותיהם נרצחו, קהילותיהם נמחקו.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                ניצולים ששבו נתקלו לעתים קרובות בעוינות מצד האוכלוסייה המקומית שהשתלטה על רכוש יהודי. פרעות שלאחר המלחמה, כולל הפרעות הידועות לשמצה בקילצה ביולי 1946, הבהירו שלפולין אין עתיד ליהודיה הניצולים. הרוב המכריע של מי שחזר עזב שוב במהרה, והצטרף להגירה הגדולה מערבה אל מחנות העקורים בגרמניה, אוסטריה ואיטליה.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="post-1" aria-label="Add a photo to The Empty Home">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-post-1"></div>
@@ -448,27 +927,66 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="order-2 md:order-1 md:text-right md:pr-12 glass-card p-8 rounded-lg">
-                        <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">Displaced Persons</h4>
-                        <p class="text-sm opacity-80 italic leading-relaxed">
-                            Camps like Feldafing in Germany became massive hubs for survivors waiting to emigrate. In these camps, thousands of marriages took place as young people desperately sought to recreate the families they had lost.
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">Displaced Persons</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                Feldafing, located on the shores of Lake Starnberg near Munich, was one of the largest and most significant Displaced Persons camps in postwar Germany. Originally a Hitler Youth training center, it was converted by American forces into a camp exclusively for Jewish survivors. At its peak, Feldafing housed over 5,000 people and became a center of Jewish cultural revival, with its own newspaper, schools, and synagogue.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                In these camps, thousands of marriages took place as young survivors desperately sought to recreate the families they had lost. The wave of "DP weddings" -- often conducted with no special clothes, no family guests, and makeshift ceremonies -- represented one of the most remarkable acts of collective faith in the future in modern history. From ashes, a new generation was willed into existence.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">עקורים</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                פלדאפינג, הממוקמת על חופי אגם שטרנברג ליד מינכן, היתה אחד ממחנות העקורים הגדולים והמשמעותיים ביותר בגרמניה שלאחר המלחמה. במקור מרכז אימונים של נוער היטלר, הוסבה על ידי הכוחות האמריקניים למחנה בלעדי לניצולים יהודים. בשיאו, אכלס פלדאפינג למעלה מ-5,000 איש והפך למרכז לתחיית התרבות היהודית, עם עיתון, בתי ספר ובית כנסת משלו.
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                במחנות אלה, אלפי נישואין נערכו כאשר ניצולים צעירים ביקשו נואשות ליצור מחדש את המשפחות שאיבדו. גל "חתונות העקורים" -- שנערכו לעתים קרובות ללא בגדים מיוחדים, ללא אורחים מהמשפחה, ובטקסים מאולתרים -- ייצגו אחד ממעשי האמונה הקולקטיבית המרשימים ביותר בעתיד בהיסטוריה המודרנית. מתוך האפר, דור חדש הובא לעולם בכוח הרצון.
+                            </p>
+                        </div>
                     </div>
                     <div class="order-1 md:order-2 md:pl-12">
-                        <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">1945 — 1946</span>
-                        <h3 class="text-4xl mb-6 text-slate-800">New Roots in Munich</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            Refusing to be broken, Ida moved to the Displaced Persons camps in Germany (Feldafing and Regensburg). There, she met Eliezar Kafka. Both were alone; both were determined to rebuild the Jewish people. 
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            They married on July 27, 1946, in a simple ceremony with no special clothes. Shortly after, they welcomed their daughter Helen. Given the starvation and physical abuse Ida had endured, giving birth to a healthy baby was deemed a literal miracle.
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">1945 — 1948</span>
+                            <h3 class="text-4xl mb-6 text-slate-800">New Roots in Munich</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Refusing to be broken, Ida began rebuilding. On August 1, 1945, she recorded a small but transformative moment: "I bought much needed glasses. Finally I found it. My world became enlightened. Until now it was dark." After years of near-blindness at the spinning machines, she could finally see clearly again.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                She traveled through the Czech border to the Displaced Persons camp at Feldafing. "The place is beautiful, surrounded by small mountains. The air is fantastic." Later she moved to Regensburg, finding "a flat with 2 rooms and a kitchen... near the river. This place is charming." In these quiet rooms, her diary became her closest companion: "My best friend and biggest source of comfort is this diary, with whom I decided to share my moments of happiness and confusion." Its pages held the question that still ached: "To whom I belong, who belongs to me? For whom I live and who do I have?"
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                There, she met Eliezar Kafka. Her diary entry for the wedding was spare and luminous: "On July 27, the wedding of Itka Rakowska and Lazar Kafka. Let G-d give us happiness." The ceremony was simple -- no special clothes, no family to celebrate with. "Both having survived the fires of Poland and Germany, both being alone, both holding dear a pledge to re-populate the Jewish people."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                Shortly after, they welcomed their daughter Helen (Shayna Chaya). Given the starvation and physical abuse Ida had endured, giving birth to a healthy baby was deemed "a literal miracle." They later suffered the loss of one child at two months old from heart complications -- a private grief carried alongside the vast public losses they had already borne.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">1945 — 1948</span>
+                            <h3 class="text-4xl mb-6 text-slate-800">שורשים חדשים במינכן</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                מסרבת להישבר, אידה החלה לבנות מחדש. ב-1 באוגוסט 1945, תיעדה רגע קטן אך משנה חיים: "קניתי משקפיים נחוצים מאוד. סוף סוף מצאתי. עולמי האיר. עד עכשיו היה חשוך." אחרי שנים של עיוורון כמעט מוחלט ליד מכונות הטוויה, יכלה סוף סוף לראות בבהירות שוב.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                היא נסעה דרך הגבול הצ׳כי למחנה העקורים בפלדאפינג. "המקום יפהפה, מוקף בהרים קטנים. האוויר פנטסטי." מאוחר יותר עברה לרגנסבורג, ומצאה "דירה עם 2 חדרים ומטבח... ליד הנהר. המקום קסום." בחדרים השקטים האלה, יומנה הפך לידידה הקרוב ביותר: "חברי הטוב ביותר ומקור הנחמה הגדול ביותר שלי הוא היומן הזה, שאיתו החלטתי לחלוק את רגעי האושר והמבוכה שלי." דפיו החזיקו את השאלה שעדיין כאבה: "למי אני שייכת, מי שייך לי? בשביל מי אני חיה ומי יש לי?"
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                שם, פגשה את אליעזר קפקא. רישום היומן שלה לחתונה היה קצר וזוהר: "ב-27 ביולי, חתונת איטקה רקובסקי ולזר קפקא. יתן ה׳ לנו אושר." הטקס היה פשוט -- ללא בגדים מיוחדים, ללא משפחה לחגוג עמה. "שניהם ששרדו את אש פולין וגרמניה, שניהם לבדם, שניהם מחזיקים יקרה את ההתחייבות לחדש את העם היהודי."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                זמן קצר לאחר מכן, קיבלו בברכה את בתם הלן (שיינא חיה). בהתחשב בהרעבה ובהתעללות הפיזית שאידה עברה, לידת תינוקת בריאה נחשבה "נס ממש." מאוחר יותר סבלו מאובדן ילד בן חודשיים מסיבוכי לב -- אבל פרטי שנישא לצד האובדנים הציבוריים העצומים שכבר נשאו.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="post-2" aria-label="Add a photo to New Roots in Munich">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-post-2"></div>
@@ -479,27 +997,72 @@
                 <div class="station-line hidden md:block"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div class="md:text-right md:pr-12">
-                        <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">1948 & Beyond</span>
-                        <h3 class="text-4xl mb-6 text-slate-800">Across the Ocean</h3>
-                        <p class="text-lg leading-relaxed opacity-90 mb-4">
-                            Securing visas to Canada, they faced one last hurdle: infants under six months weren't allowed on the ships. They traded a watch to an official to falsify Helen's papers. After a terrifying 10-day voyage on a wooden boat, they landed in Halifax. 
-                        </p>
-                        <p class="text-lg leading-relaxed opacity-90">
-                            There, an immigration officer anglicized "Yittale" to "Ida." They settled in Toronto, slaving away as a tailor and seamstress to raise four children. Ida lived to see grandchildren and great-grandchildren, feeling immense pride when her descendants served in the IDF and attended her beloved Bais Yaakov in Israel. 
-                        </p>
+                        <div lang="en">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">1948 & Beyond</span>
+                            <h3 class="text-4xl mb-6 text-slate-800">Across the Ocean</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                They applied to emigrate everywhere -- Chicago, South Africa, Sweden, Israel -- but it was Canada that accepted them, because of a grandmother already there. Securing visas, they faced one last hurdle: infants under six months were not allowed on the ships. They traded a watch to an official to falsify Helen's papers. The voyage itself was harrowing -- the "ship" was "a wooden boat which was to cross the Atlantic Ocean," with Eliezar ill and Ida tending to an infant and a sick husband alone through ten terrifying days at sea.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Landing in Halifax, an immigration officer anglicized "Yittale" to "Ida" -- "a name she never chose and one which she didn't appreciate." At Union Station in Toronto, they found their relatives "not too welcoming." As Rachel later wrote: "These survivors were a constant reminder of the 'Shtetle Jew'; uncultured, unsophisticated, uneducated, and always in need." But the survivors refused to be defined by others' discomfort. "With little to no help, these survivors went on to build families, homes... They were unstoppable, as they literally had nothing to lose and everything to gain."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Ida and Eliezar settled in Toronto, working as tailor and seamstress, and raised four children: Helen, Bernie, Dorothy, and Rachel. The family they built was fiercely close: "We were close knit, and tight of emotions... never let others know how you feel. Hide your emotions, keep family business in the family... for they came from a place where opening your mouth could cost you your life."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                Ida lived to see grandchildren and great-grandchildren serve in the IDF and attend her beloved Bais Yaakov in Israel -- the very movement that had shaped her own girlhood in Bedzin, now thriving in a Jewish state she had only dreamed of. On her 60th birthday, she offered her family a piece of wisdom about what truly endures: the bonds of family, she said, are the only permanent goods in a world of temporary things.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                Eleven months after Ida's passing, Anna Halber -- "herself a child of survivors, who donated 4 years of her time in interviewing survivors for Steven Spielberg" -- translated Ida's handwritten diary from Yiddish, unlocking the full depth of her testimony for the generations that follow.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-widest block mb-2">1948 והלאה</span>
+                            <h3 class="text-4xl mb-6 text-slate-800">מעבר לאוקיינוס</h3>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                הם הגישו בקשות הגירה לכל מקום -- שיקגו, דרום אפריקה, שוודיה, ישראל -- אך קנדה היא שקיבלה אותם, בזכות סבתא שכבר חיה שם. לאחר השגת ויזות, עמדו בפני מכשול אחרון: תינוקות מתחת לגיל שישה חודשים לא הורשו על הספינות. הם החליפו שעון עם פקיד כדי לזייף את ניירות הלן. ההפלגה עצמה היתה מפחידה -- ה"ספינה" היתה "סירת עץ שנועדה לחצות את האוקיינוס האטלנטי," כאשר אליעזר חולה ואידה מטפלת בתינוקת ובבעל חולה לבדה דרך עשרה ימים מפחידים בים.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                בנחיתה בהליפקס, פקיד הגירה אנגליז את "יטל׳ה" ל"אידה" -- "שם שמעולם לא בחרה ושלא היה חביב עליה." בתחנת יוניון בטורונטו, מצאו את קרוביהם "לא כל כך מסבירי פנים." כפי שכתבה רחל מאוחר יותר: "ניצולים אלה היו תזכורת מתמדת ל׳יהודי השטעטל׳; חסרי תרבות, לא מתוחכמים, לא משכילים, ותמיד נזקקים." אך הניצולים סירבו להיות מוגדרים על ידי אי הנוחות של אחרים. "עם מעט עד אפס עזרה, ניצולים אלה המשיכו לבנות משפחות, בתים... הם היו בלתי ניתנים לעצירה, שכן לא היה להם ממש מה להפסיד והכל להרוויח."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                אידה ואליעזר התיישבו בטורונטו, עובדים כחייט ותופרת, וגידלו ארבעה ילדים: הלן, ברני, דורותי ורחל. המשפחה שבנו היתה קרובה בעזות: "היינו קרובים ומהודקים ברגשות... לעולם אל תתנו לאחרים לדעת מה אתם מרגישים. הסתירו את רגשותיכם, שמרו את עניני המשפחה בתוך המשפחה... כי הם באו ממקום שבו פתיחת הפה יכלה לעלות לך בחיים."
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90 mb-4">
+                                אידה זכתה לראות נכדים ונינים משרתים בצה"ל ולומדים ב-Bais Yaakov האהוב עליה בישראל -- אותה תנועה שעיצבה את נערותה שלה בבנדין, עתה פורחת במדינה יהודית שרק חלמה עליה. ביום הולדתה ה-60, העניקה למשפחתה חוכמה על מה שבאמת נצחי: קשרי המשפחה, אמרה, הם הנכסים הקבועים היחידים בעולם של דברים ארעיים.
+                            </p>
+                            <p class="text-lg leading-relaxed opacity-90">
+                                אחד עשר חודשים אחרי פטירת אידה, אנה הלבר -- "עצמה ילדה של ניצולים, שתרמה 4 שנים מזמנה בראיון ניצולים עבור סטיבן שפילברג" -- תרגמה את יומנה בכתב יד של אידה מיידיש, ופתחה את מלוא עומק עדותה לדורות הבאים.
+                            </p>
+                        </div>
                     </div>
                     <div class="md:pl-12 glass-card p-8 rounded-lg border-l-4 border-blue-400">
-                        <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">The Ultimate Victory</h4>
-                        <p class="text-sm opacity-80 italic leading-relaxed">
-                            "Not Hitler 'Yemach Shemo', not poverty, not adversity, not the loss of her Father... could ever or did ever alter her unwavering Emmunah (faith) in Hashem." - Rachel Bahar
-                        </p>
+                        <div lang="en">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">The Ultimate Victory</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                "Not Hitler 'Yemach Shemo', not poverty, not adversity, not the loss of her Father... could ever or did ever alter her unwavering Emmunah (faith) in Hashem." -- Rachel Bahar
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                Post-war Jewish immigration to Canada came in waves, shaped by shifting government policies. Canada's restrictive immigration regime, famously summarized by the phrase "none is too many," had kept Jewish refugees out during the war. It was only in 1947-1948 that doors began to open, largely through specific labor programs and family sponsorship. The survivors who arrived found a Jewish community ambivalent about their presence -- eager to help at an institutional level, but often uncomfortable with the traumatic histories these newcomers carried. Despite this, the survivors transformed Canadian Jewish life, establishing memorial institutions, synagogues, and community organizations that ensured the memory of what was lost would never fade.
+                            </p>
+                        </div>
+                        <div lang="he" dir="rtl">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 tracking-widest mb-4">הניצחון הסופי</h4>
+                            <p class="text-sm opacity-80 italic leading-relaxed mb-3">
+                                "לא היטלר ׳ימח שמו׳, לא עוני, לא מצוקה, לא אובדן אביה... יכלו אי פעם או שינו אי פעם את אמונתה הבלתי מעורערת בה׳." -- רחל בהר
+                            </p>
+                            <p class="text-sm opacity-80 italic leading-relaxed">
+                                ההגירה היהודית לקנדה שלאחר המלחמה באה בגלים, מעוצבת על ידי מדיניות ממשלתית משתנה. משטר ההגירה המגביל של קנדה, שסוכם בביטוי המפורסם "אף אחד זה יותר מדי," מנע מפליטים יהודים להיכנס בזמן המלחמה. רק ב-1947-1948 החלו הדלתות להיפתח, בעיקר דרך תוכניות עבודה ספציפיות וחסות משפחתית. הניצולים שהגיעו מצאו קהילה יהודית אמביוולנטית כלפי נוכחותם -- להוטה לעזור ברמה המוסדית, אך לעתים קרובות לא בנוח עם ההיסטוריות הטראומטיות שנשאו עמם הבאים החדשים. למרות זאת, הניצולים שינו את החיים היהודיים בקנדה, והקימו מוסדות הנצחה, בתי כנסת וארגוני קהילה שהבטיחו שזיכרון מה שאבד לעולם לא ייעלם.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-12">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="en" class="text-xs font-bold uppercase tracking-widest opacity-40">Family Photos</h4>
+                        <h4 lang="he" dir="rtl" class="text-xs font-bold uppercase tracking-widest opacity-40">תמונות משפחתיות</h4>
                         <button class="upload-trigger glass-card px-4 py-2 rounded-lg text-sm hover:opacity-80 transition-opacity flex items-center gap-2" data-section="post-3" aria-label="Add a photo to Across the Ocean">
-                            <span class="text-lg leading-none">+</span><span>Add Photo</span>
+                            <span class="text-lg leading-none">+</span><span lang="en">Add Photo</span><span lang="he">הוסף תמונה</span>
                         </button>
                     </div>
                     <div class="photo-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2" id="photos-post-3"></div>
@@ -508,34 +1071,100 @@
 
             <section id="about" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar" role="region" aria-label="About this archive">
                 <div class="max-w-2xl mx-auto text-center">
-                    <h2 class="text-4xl mb-6 italic text-slate-800">"For whom I live and who do I have?"</h2>
-                    <p class="max-w-2xl mx-auto text-slate-600 font-light leading-relaxed mb-12 text-lg">
-                        Ida answered her own agonizing question from the ruins of 1945 by building a thriving family. Her archive is a testament to the power of the human spirit, the necessity of memory, and the indestructible nature of faith.
-                    </p>
-                    <div class="text-xs uppercase tracking-widest text-slate-400 mb-16">
-                        Preserved for the Generations to Come
+                    <div lang="en">
+                        <h2 class="text-4xl mb-6 italic text-slate-800">"For whom I live and who do I have?"</h2>
+                        <p class="max-w-2xl mx-auto text-slate-600 font-light leading-relaxed mb-12 text-lg">
+                            Ida answered her own agonizing question from the ruins of 1945 by building a thriving family. Her archive is a testament to the power of the human spirit, the necessity of memory, and the indestructible nature of faith.
+                        </p>
+                        <div class="text-xs uppercase tracking-widest text-slate-400 mb-16">
+                            Preserved for the Generations to Come
+                        </div>
+                    </div>
+                    <div lang="he" dir="rtl">
+                        <h2 class="text-4xl mb-6 italic text-slate-800">"בשביל מי אני חיה ומי יש לי?"</h2>
+                        <p class="max-w-2xl mx-auto text-slate-600 font-light leading-relaxed mb-12 text-lg">
+                            אידה ענתה על שאלתה המייסרת מחורבות 1945 בכך שבנתה משפחה פורחת. הארכיון שלה הוא עדות לכוחה של הרוח האנושית, להכרח שבזיכרון, ולטבעה הבלתי ניתנת להשמדה של האמונה.
+                        </p>
+                        <div class="text-xs uppercase tracking-widest text-slate-400 mb-16">
+                            נשמר לדורות הבאים
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="eulogies" class="relative container mx-auto py-32 section-block fade-section" data-theme="theme-postwar" role="region" aria-label="Eulogies">
+                <div class="max-w-3xl mx-auto text-center">
+                    <div lang="en">
+                        <h3 class="text-4xl mb-4 text-slate-800">Words of Farewell</h3>
+                        <p class="text-lg text-slate-600 font-light leading-relaxed mb-12">Eulogies written by those who knew and loved her most.</p>
+                    </div>
+                    <div lang="he" dir="rtl">
+                        <h3 class="text-4xl mb-4 text-slate-800">דברי פרידה</h3>
+                        <p class="text-lg text-slate-600 font-light leading-relaxed mb-12">הספדים שנכתבו על ידי אלה שהכירו ואהבו אותה ביותר.</p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <button class="eulogy-card glass-card rounded-xl p-6 text-center hover:scale-105 transition-transform cursor-pointer" data-eulogy="helen">
+                            <div class="text-4xl mb-3 opacity-60">&#9830;</div>
+                            <p class="font-semibold text-sm">Helen Fischer</p>
+                            <p lang="en" class="text-xs opacity-50 mt-1">Daughter</p>
+                            <p lang="he" class="text-xs opacity-50 mt-1">בת</p>
+                        </button>
+                        <button class="eulogy-card glass-card rounded-xl p-6 text-center hover:scale-105 transition-transform cursor-pointer" data-eulogy="rachel">
+                            <div class="text-4xl mb-3 opacity-60">&#9830;</div>
+                            <p class="font-semibold text-sm">Rachel Bahar</p>
+                            <p lang="en" class="text-xs opacity-50 mt-1">Daughter</p>
+                            <p lang="he" class="text-xs opacity-50 mt-1">בת</p>
+                        </button>
+                        <button class="eulogy-card glass-card rounded-xl p-6 text-center hover:scale-105 transition-transform cursor-pointer" data-eulogy="barry">
+                            <div class="text-4xl mb-3 opacity-60">&#9830;</div>
+                            <p class="font-semibold text-sm">Barry Fischer</p>
+                            <p lang="en" class="text-xs opacity-50 mt-1">Grandson</p>
+                            <p lang="he" class="text-xs opacity-50 mt-1">נכד</p>
+                        </button>
+                        <button class="eulogy-card glass-card rounded-xl p-6 text-center hover:scale-105 transition-transform cursor-pointer" data-eulogy="shane">
+                            <div class="text-4xl mb-3 opacity-60">&#9830;</div>
+                            <p class="font-semibold text-sm">Shane Kafka</p>
+                            <p lang="en" class="text-xs opacity-50 mt-1">Grandson</p>
+                            <p lang="he" class="text-xs opacity-50 mt-1">נכד</p>
+                        </button>
                     </div>
                 </div>
             </section>
 
         </main>
-
-        <footer class="py-32 text-center section-block" data-theme="theme-postwar">
-            <h3 class="text-3xl mb-8 text-slate-800">About This Archive</h3>
-            <p class="max-w-2xl mx-auto px-6 text-lg leading-relaxed opacity-90 mb-6">
-                This living archive was created by the family of Ida (Yittale) Kafka
-                to preserve her testimony for future generations. The narrative is drawn
-                from Ida's own written account of her life, as shared by her daughter
-                Rachel Bahar.
-            </p>
-            <p class="max-w-2xl mx-auto px-6 text-lg leading-relaxed opacity-90 mb-6">
-                Family members and friends are invited to contribute photographs
-                using the upload buttons found throughout the timeline. Every image
-                added helps complete the picture of a life that spanned from pre-war
-                Poland to post-war Canada.
-            </p>
+            <div lang="en">
+                <h3 class="text-3xl mb-8 text-slate-800">About This Archive</h3>
+                <p class="max-w-2xl mx-auto px-6 text-lg leading-relaxed opacity-90 mb-6">
+                    This living archive was created by the family of Ida (Yittale) Kafka
+                    to preserve her testimony for future generations. The narrative is drawn
+                    from Ida's own written account of her life, as shared by her daughter
+                    Rachel Bahar.
+                </p>
+                <p class="max-w-2xl mx-auto px-6 text-lg leading-relaxed opacity-90 mb-6">
+                    Family members and friends are invited to contribute photographs
+                    using the upload buttons found throughout the timeline. Every image
+                    added helps complete the picture of a life that spanned from pre-war
+                    Poland to post-war Canada.
+                </p>
+            </div>
+            <div lang="he" dir="rtl">
+                <h3 class="text-3xl mb-8 text-slate-800">על הארכיון</h3>
+                <p class="max-w-2xl mx-auto px-6 text-lg leading-relaxed opacity-90 mb-6">
+                    ארכיון חי זה נוצר על ידי משפחתה של אידה (יטל׳ה) קפקא
+                    כדי לשמר את עדותה לדורות הבאים. הסיפור נשאב
+                    מתוך כתביה של אידה עצמה על חייה, כפי שנמסרו על ידי בתה
+                    רחל בהר.
+                </p>
+                <p class="max-w-2xl mx-auto px-6 text-lg leading-relaxed opacity-90 mb-6">
+                    בני משפחה וחברים מוזמנים לתרום תצלומים
+                    באמצעות כפתורי ההעלאה הפרוסים לאורך ציר הזמן. כל תמונה
+                    שמתווספת עוזרת להשלים את תמונת חיים שנפרשו מפולין שלפני המלחמה
+                    ועד לקנדה שאחרי המלחמה.
+                </p>
+            </div>
             <div class="max-w-2xl mx-auto px-6 mt-12 pt-8 border-t border-slate-300 text-sm text-slate-500">
-                <p>In memory of Chaya and Eli Boruch Rakowsky, and all who perished.</p>
+                <p lang="en">In memory of Chaya and Eli Boruch Rakowsky, and all who perished.</p>
+                <p lang="he" dir="rtl">לזכר חיה ואלי ברוך רקובסקי, וכל אלה שנספו.</p>
             </div>
         </footer>
     </div>
@@ -544,15 +1173,18 @@
     <div id="upload-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Upload a photo">
         <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl text-gray-800">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl serif">Add a Photo</h3>
+                <h3 lang="en" class="text-2xl serif">Add a Photo</h3>
+                <h3 lang="he" class="text-2xl serif" dir="rtl">הוסף תמונה</h3>
                 <button id="modal-close" class="text-gray-400 hover:text-gray-600 text-2xl leading-none" aria-label="Close">&times;</button>
             </div>
-            <p class="text-sm text-gray-500 mb-6">Adding to: <strong id="modal-section-label"></strong></p>
+            <p class="text-sm text-gray-500 mb-6"><span lang="en">Adding to:</span><span lang="he">מוסיף ל:</span> <strong id="modal-section-label"></strong></p>
 
             <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-400 transition-colors mb-4">
                 <div class="text-4xl mb-2 opacity-40">&#128247;</div>
-                <p class="text-sm text-gray-500">Drag a photo here or <span class="text-blue-600 underline">browse</span></p>
-                <p class="text-xs text-gray-400 mt-1">JPG, PNG, or WebP. Max 10 MB.</p>
+                <p lang="en" class="text-sm text-gray-500">Drag a photo here or <span class="text-blue-600 underline">browse</span></p>
+                <p lang="he" class="text-sm text-gray-500" dir="rtl">גרור תמונה לכאן או <span class="text-blue-600 underline">עיין</span></p>
+                <p lang="en" class="text-xs text-gray-400 mt-1">JPG, PNG, or WebP. Max 10 MB.</p>
+                <p lang="he" class="text-xs text-gray-400 mt-1" dir="rtl">JPG, PNG, או WebP. מקסימום 10 מ"ב.</p>
                 <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" class="hidden">
             </div>
 
@@ -568,15 +1200,25 @@
 
             <button id="upload-submit" disabled
                     class="w-full bg-slate-800 text-white py-3 rounded-lg font-semibold hover:bg-slate-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
-                Upload Photo
+                <span lang="en">Upload Photo</span><span lang="he">העלה תמונה</span>
             </button>
 
             <div id="upload-progress" class="hidden mt-4">
                 <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
                     <div id="progress-bar" class="h-full bg-blue-500 transition-all rounded-full" style="width: 0%"></div>
                 </div>
-                <p class="text-xs text-gray-400 mt-1 text-center" id="progress-text">Uploading...</p>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="progress-text"><span lang="en">Uploading...</span><span lang="he">מעלה...</span></p>
             </div>
+        </div>
+    </div>
+
+    <!-- Eulogy Modal -->
+    <div id="eulogy-modal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Eulogy">
+        <button id="eulogy-close" class="absolute top-4 right-4 text-white/70 hover:text-white text-4xl leading-none z-10" aria-label="Close">&times;</button>
+        <button id="eulogy-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-5xl leading-none z-10 hidden" aria-label="Previous page">&#8249;</button>
+        <button id="eulogy-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-5xl leading-none z-10 hidden" aria-label="Next page">&#8250;</button>
+        <div class="max-h-[90vh] overflow-y-auto p-4">
+            <img id="eulogy-img" class="max-w-[90vw] md:max-w-2xl mx-auto rounded-lg shadow-2xl" alt="Eulogy">
         </div>
     </div>
 
@@ -611,7 +1253,8 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const theme = entry.target.getAttribute('data-theme');
-                    body.className = `antialiased ${theme}`;
+                    const hebrewClass = body.classList.contains('hebrew') ? ' hebrew' : '';
+                    body.className = `antialiased ${theme}${hebrewClass}`;
                     const targetId = entry.target.getAttribute('id');
                     navDots.forEach(dot => {
                         dot.classList.toggle('active', dot.getAttribute('data-target') === targetId);
@@ -654,6 +1297,7 @@
         // Journey waypoints: [lat, lng, label, zoom]
         const waypoints = {
             'hero':   { coords: [50.32, 19.13], label: 'Bedzin, Poland', zoom: 6 },
+            'prologue': { coords: [50.32, 19.13], label: 'Bedzin, Poland', zoom: 6 },
             'pre-1':  { coords: [50.32, 19.13], label: 'Bedzin (Bendein), Poland', zoom: 10 },
             'pre-2':  { coords: [50.29, 19.11], label: 'Bedzin \u2192 Sosnowiec', zoom: 11 },
             'war-1':  { coords: [50.32, 19.13], label: 'Bedzin, Poland \u2014 Sept 1939', zoom: 10 },
@@ -682,7 +1326,7 @@
 
         // Map section index to how many route segments to show
         const routeProgress = {
-            'hero': 0, 'pre-1': 0, 'pre-2': 0, 'war-1': 0,
+            'hero': 0, 'prologue': 0, 'pre-1': 0, 'pre-2': 0, 'war-1': 0,
             'war-2': 1, 'war-3': 2, 'war-4': 2,
             'war-5': 3, 'war-6': 4,
             'post-1': 5, 'post-2': 6, 'post-3': 8
@@ -745,6 +1389,7 @@
 
         // Section labels for the modal
         const sectionLabels = {
+            'prologue': 'Prologue',
             'pre-1': 'Childhood in Bendein',
             'pre-2': 'A Formative Loss',
             'war-1': 'The Flames of Bendein',
@@ -1023,6 +1668,71 @@
         if (initSupabase()) {
             loadAllPhotos();
         }
+
+        // =============================================
+        // EULOGIES
+        // =============================================
+        const eulogyImages = {
+            helen: ['eulogy-helen.png'],
+            rachel: ['eulogy-rachel-1.png', 'eulogy-rachel-2.png'],
+            barry: ['eulogy-barry.png'],
+            shane: ['eulogy-shane.png']
+        };
+
+        const eulogyModal = document.getElementById('eulogy-modal');
+        const eulogyImg = document.getElementById('eulogy-img');
+        const eulogyPrev = document.getElementById('eulogy-prev');
+        const eulogyNext = document.getElementById('eulogy-next');
+        let currentEulogyPages = [];
+        let currentEulogyPage = 0;
+
+        function showEulogyPage(page) {
+            currentEulogyPage = page;
+            eulogyImg.src = currentEulogyPages[page];
+            eulogyPrev.classList.toggle('hidden', page === 0);
+            eulogyNext.classList.toggle('hidden', page === currentEulogyPages.length - 1);
+        }
+
+        function openEulogy(name) {
+            currentEulogyPages = eulogyImages[name];
+            if (!currentEulogyPages) return;
+            showEulogyPage(0);
+            eulogyModal.classList.remove('hidden');
+            eulogyModal.classList.add('flex');
+        }
+
+        function closeEulogy() {
+            eulogyModal.classList.add('hidden');
+            eulogyModal.classList.remove('flex');
+        }
+
+        document.querySelectorAll('.eulogy-card').forEach(card => {
+            card.addEventListener('click', () => openEulogy(card.dataset.eulogy));
+        });
+        document.getElementById('eulogy-close').addEventListener('click', closeEulogy);
+        eulogyModal.addEventListener('click', (e) => { if (e.target === eulogyModal) closeEulogy(); });
+        eulogyPrev.addEventListener('click', (e) => { e.stopPropagation(); showEulogyPage(currentEulogyPage - 1); });
+        eulogyNext.addEventListener('click', (e) => { e.stopPropagation(); showEulogyPage(currentEulogyPage + 1); });
+        document.addEventListener('keydown', (e) => {
+            if (eulogyModal.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeEulogy();
+            if (e.key === 'ArrowRight' && currentEulogyPage < currentEulogyPages.length - 1) showEulogyPage(currentEulogyPage + 1);
+            if (e.key === 'ArrowLeft' && currentEulogyPage > 0) showEulogyPage(currentEulogyPage - 1);
+        });
+
+        // Language Toggle
+        const langBtn = document.getElementById('lang-toggle');
+        let isHebrew = localStorage.getItem('memorial-lang') === 'he';
+        function setLang(he) {
+            isHebrew = he;
+            document.body.classList.toggle('hebrew', he);
+            document.documentElement.dir = he ? 'rtl' : 'ltr';
+            document.documentElement.lang = he ? 'he' : 'en';
+            langBtn.textContent = he ? 'English' : 'עברית';
+            localStorage.setItem('memorial-lang', he ? 'he' : 'en');
+        }
+        langBtn.addEventListener('click', () => setLang(!isHebrew));
+        if (isHebrew) setLang(true);
     </script>
 </body>
 </html>
